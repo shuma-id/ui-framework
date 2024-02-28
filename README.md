@@ -6,4 +6,4 @@
 
 Run Storybook on localhost:
 
-npm run storybook
+`npm run storybook`

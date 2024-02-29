@@ -1,4 +1,4 @@
-import VButton from "./VButton.vue";
+import VButton from './VButton.vue';
 
 export default {
   title: "VButton",
@@ -6,8 +6,39 @@ export default {
   tags: ["autodocs"],
 };
 
-export const Default = {
-  args: {
-    label: "Press me",
+const Template = (args) => ({
+  components: { VButton },
+  setup() {
+    return { args };
   },
+  template: '<v-button v-bind="args" @update:state="args.state = $event" />',
+});
+
+export const Primary = Template.bind({});
+
+Primary.args = {
+  label: 'Click me',
+  type: 'primary',
+  state: 'main'
+};
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+  label: 'Click me',
+  type: 'secondary',
+  state: 'main'
+};
+
+export const Danger = Template.bind({});
+Danger.args = {
+  label: 'Click me',
+  type: 'danger',
+  state: 'main'
+};
+
+export const Borderless = Template.bind({});
+Borderless.args = {
+  label: 'Click me',
+  type: 'borderless',
+  state: 'main'
 };

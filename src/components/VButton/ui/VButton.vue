@@ -1,13 +1,9 @@
 <template>
   <button
-    :class="['button', buttonType, buttonState]"
+    :class="['button', typeClass, buttonState]"
     :disabled="isDisabled"
-    @mouseover="hover"
-    @mousedown="press"  
-    @mouseup="release"
-    @mouseleave="release"
     >{{ label }}
-</button>
+  </button>
 </template>
 
 <script>
@@ -16,17 +12,20 @@ export default {
   props: {
     label: { type: String, required: true },
     type: { type: String, default: 'primary' },
-    state: { type: String, default: 'main' }
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
-    buttonType() {
+    typeClass() {
       return `button--${this.type}`;
     },
     buttonState() {
       return `button--${this.state}`;
     },
     isDisabled() {
-      return this.state === 'disabled';
+      return this.disabled;
     }
   },
   methods: {

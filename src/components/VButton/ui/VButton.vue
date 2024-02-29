@@ -1,8 +1,6 @@
 <template>
   <button
-    :class="['button', typeClass, buttonState]"
-    :disabled="isDisabled"
-    >{{ label }}
+    :class="['button', typeClass]" :disabled="disabled">{{ label }}
   </button>
 </template>
 
@@ -20,29 +18,6 @@ export default {
   computed: {
     typeClass() {
       return `button--${this.type}`;
-    },
-    buttonState() {
-      return `button--${this.state}`;
-    },
-    isDisabled() {
-      return this.disabled;
-    }
-  },
-  methods: {
-    hover() {
-      if (!this.isDisabled) {
-        this.$emit('update:state', 'hover');
-      }
-    },
-    press() {
-      if (!this.isDisabled) {
-        this.$emit('update:state', 'pressed');
-      }
-    },
-    release() {
-      if (!this.isDisabled) {
-        this.$emit('update:state', 'main');
-      }
     }
   }
 };

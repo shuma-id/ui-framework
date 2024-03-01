@@ -4,10 +4,9 @@
       <input 
         type="text" id="VInput" placeholder=""
         :class="['input', { 'error': error, '__complete': isComplete }]" 
-        v-model="inputValue"
-        :disabled="disabled"
+        :value="modelValue" @input="updateValue" :disabled="disabled"
       />
-      <label for="VInput" class="placeholder" :class="{ 'error': error }">Placeholder</label>
+      <label for="VInput" class="placeholder" :class="{ 'error': error }">{{ placeholder }}</label>
       <img class="error-icon" src="./icon-errors.svg" :class="{ 'error': error }" alt="Error icon image">
     </div>
     <span v-if="messageError" class="error-message" :class="{ 'messageError': messageError }">Error message</span>
@@ -21,16 +20,16 @@ export default {
     placeholder: {type: String, default: ''},
     disabled: {type: Boolean, default: false},
     error: {type: Boolean, default: false},
-    messageError: {type: Boolean, default: false},
+    modelValue: { type: String, default: ''},
   },
-  data() {
-    return {
-      inputValue: ''
+  methods: {
+    updateValue($event) {
+      this.$emit('update:modelValue', $event.target.value);
     }
   },
   computed: {
     isComplete() {
-      return this.inputValue.trim().length > 0;
+      return this.modelValue.trim().length > 0;
     }
   },
 }
@@ -38,7 +37,6 @@ export default {
 
 <style scoped lang="scss">
 .form__container {
-  width: 480px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -47,6 +45,7 @@ export default {
   .input__wrapper {
     position: relative;
     width: 100%;
+
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -55,12 +54,15 @@ export default {
     .input {
       width: 100%;
       height: 64px;
+
       box-sizing: border-box; 
       padding: 20px 39px 20px 18px;
+
       background: #F7F7F7;
       border: 1px solid transparent;
       border-radius: 12px;
       outline: none;
+
       font-size: 16px;
       font-weight: 400;
       color: #000;
@@ -74,8 +76,8 @@ export default {
       &:focus {
         background: transparent;
         border: 1px solid #7000FF;
-        padding: 20px 39px 20px 18px;
       }
+
       &.__complete:not(:focus):hover {
         background: #F2F2F2;
         color: #000;  
@@ -85,27 +87,28 @@ export default {
         background: #F7F7F7;
         color: #808080;
       }
-
     }
 
     .placeholder {
       position: absolute;
       top: 0;
       left: 18px;
+
       font-size: 16px;
       font-weight: 400;
       color: #808080;
+
       transform: translateY(22px);
       transition: 0.3s;
     }
 
     .error-icon {
       position: relative;
-      opacity: 0;
       top: 0;
       left: -33px;
       width: 15px;
       height: 15px;
+      opacity: 0;
       transition: 0.3s;
     }
 
@@ -130,12 +133,14 @@ export default {
       color: #A6A6A6;
       transition: 0.3s;
     }
+
     .input + .placeholder.error,
     .input:focus + .placeholder.error {
       color: #FF002B;
       transition: 0.3s;
     }
   }
+
   .error-message {
     margin-top: 6px;
     margin-left: 18px;

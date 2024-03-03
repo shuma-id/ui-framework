@@ -2,12 +2,13 @@
   <div class="form__container" :class="{'__with-error': error, '__disabled': disabled}">
     <div class="input__wrapper">
       <input 
-        type="text" id="VInput" placeholder=""
-        :class="['input', { 'error': error, '__complete': isComplete }]" 
-        :value="modelValue" @input="updateValue" :disabled="disabled"
+        type="text" id="VInput" placeholder="" ref="input"
+        :class="['input', {'__complete': isComplete, 'focused': isFocused}]" 
+        :value="modelValue" :disabled="disabled"
+        @input="updateValue" @focus="focus" @blur="blur"
       />
-      <label for="VInput" class="placeholder" :class="{ 'error': error }">{{ placeholder }}</label>
-      <img class="error-icon" src="./icon-errors.svg" :class="{ 'error': error }" alt="Error icon image">
+      <label for="VInput" class="placeholder">{{ placeholder }}</label>
+      <img class="error-icon" src="./icon-errors.svg" alt="Error icon image">
     </div>
   </div>
 </template>
@@ -17,14 +18,25 @@ export default {
   name: 'VInput',
   props: {
     modelValue: { type: String, default: ''},
-    placeholder: {type: String, default: ''},
-    disabled: {type: Boolean, default: false},
-    error: {type: Boolean, default: false},
+    placeholder: { type: String, default: ''},
+    disabled: { type: Boolean, default: false},
+    error: { type: Boolean, default: false},
+  },
+  data() {
+    return {
+      isFocused: false,
+    };
   },
   methods: {
     updateValue($event) {
       this.$emit('update:modelValue', $event.target.value);
-    }
+    },
+    focus() {
+      this.isFocused = true;
+    },
+    blur() {
+      this.isFocused = false;
+    },
   },
   computed: {
     isComplete() {
@@ -40,127 +52,114 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+}
 
-  &.__with-error {
-    .input__wrapper {
-      .error {
-        color: #FF002B;
-        transition: 0.3s;
-      }
+.input__wrapper {
+  position: relative;
+  width: 100%;
 
-      .input.error {
-        background: #FFF0F2;
-        color: #808080;
-        border: 1px solid transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 
-        &:hover {
-          background: #FFF0F2;  
-          color: #808080;
-        }
+.input {
+  width: 100%;
+  height: 64px;
 
-        &.__complete:not(:focus):hover {
-          background: #FFF0F2;
-          color: #808080;  
-        }
-      }
-
-      .input + .placeholder.error,
-      .input:focus + .placeholder.error {
-        color: #FF002B;
-        transition: 0.3s;
-      }
-    }
-  }
-
-  &.__disabled {
-    .input__wrapper {
-      .input:disabled {
-        background: #F7F7F7;
-        color: #808080;
-      }
-
-      .input:disabled:not(:focus):hover {
-        background: #F7F7F7;
-        color: #808080;
-      }
-    }
-  }
+  box-sizing: border-box;
+  padding: 20px 39px 20px 18px;
+  background: #F7F7F7;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  outline: none;
   
-  .input__wrapper {
-    position: relative;
-    width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  transition: background-color 0.3s, border-color 0.3s;
+}
 
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    
-    .input {
-      width: 100%;
-      height: 64px;
+.input:hover {
+  background: #F7F7F7;
+  color: #000;
+}
 
-      box-sizing: border-box; 
-      padding: 20px 18px;
+.input.focused {
+  background: transparent;
+  border: 1px solid #7000FF;
+  padding: 20px 39px 12px 18px;
+}
 
-      background: #F7F7F7;
-      border: 1px solid transparent;
-      border-radius: 12px;
-      outline: none;
+.input:not(.focused) {
+  padding: 20px 39px 12px 18px;
+}
 
-      font-size: 16px;
-      font-weight: 400;
-      color: #000;
-      transition: background-color 0.3s, border-color 0.3s;
+.input.__complete:not(.focused):hover {
+  background: #F2F2F2;
+  color: #000;
+}
 
-      &:hover {
-        background: #F7F7F7;
-        color: #000;
-      }
-    
-      &:focus {
-        background: transparent;
-        border: 1px solid #7000FF;
-      }
+.form__container.__with-error .input {
+  background: #FFF0F2;
+  color: #808080;
 
-      &.__complete:not(:focus):hover {
-        background: #F2F2F2;
-        color: #000;  
-      }
-    }
+  &:hover {
+    background: #FFF0F2;
+    color: #808080;
+  }
 
-    .error-icon {
-      position: relative;
-      top: 0;
-      left: -33px;
-      
-      opacity: 0;
-      transition: 0.3s;
+  &.focused {
+    border: 1px solid transparent;
+  }
+}
 
-      &.error {
-        opacity: 1;
-      }
-    }
+.error-icon {
+  position: relative;
+  top: 0;
+  left: -33px;
+  opacity: 0;
+  transition: 0.3s;
+}
 
-    .placeholder {
-      position: absolute;
-      top: 0;
-      left: 18px;
+.form__container.__with-error .error-icon {
+  opacity: 1;
+}
 
-      font-size: 16px;
-      font-weight: 400;
-      color: #808080;
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 18px;
 
-      transform: translateY(22px);
-      transition: 0.3s;
-    }
+  font-size: 16px;
+  font-weight: 400;
+  color: #808080;
+  pointer-events: none;
 
-    .input:focus + .placeholder,
-    .input:not(:placeholder-shown) + .placeholder {
-      transform: translate3D(0, 8px, 0);
-      font-size: 12px;
-      color: #A6A6A6;
-      transition: 0.3s;
-    }
+  transform: translate3D(0, 24px, 0);
+  transition: 0.3s;
+}
+
+.input.focused + .placeholder,
+.input:not(:placeholder-shown) + .placeholder {
+  transform: translate3D(0, 14px, 0);
+  font-size: 12px;
+  color: #A6A6A6;
+}
+
+.form__container.__with-error .placeholder {
+  color: #FF002B;
+}
+
+.form__container.__disabled .input__wrapper {
+  .input:disabled {
+    background: #F7F7F7;
+    color: #808080;
+  }
+
+  .input:disabled:not(.focused):hover {
+    background: #F7F7F7;
   }
 }
 </style>

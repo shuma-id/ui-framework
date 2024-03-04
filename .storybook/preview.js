@@ -12,3 +12,12 @@ const preview = {
 };
 
 export default preview;
+
+import { useArgs } from "@storybook/client-api";
+
+export const decorators = [
+  (story, context) => {
+    const [_, updateArgs] = useArgs();
+    return story({ ...context, updateArgs });
+  },
+];

@@ -1,21 +1,22 @@
 import VSelect from './VSelect.vue';
 
 export default {
-    title: 'VSelect',
-    component: VSelect,
-    tags: ["autodocs"],
-    argTypes: {
-        modelValue: { control: 'text' },
-    },
+  title: 'VSelect', 
+  component: VSelect, 
+  tags: ["autodocs"],
+  argTypes: {
+    disabled: { control: 'boolean' },
+    error: { control: 'boolean' },
+  },
 };
 
-export const Default = (args, { argTypes }) => ({
-    components: { VSelect },
-    props: Object.keys(argTypes),
-    data() {
-        return {
-            modelValue: ''
-        };
-    },
-    template: '<VSelect v-model="modelValue" />',
+const Template = (args, { argTypes }) => ({
+  components: { VSelect },
+  props: Object.keys(argTypes),
+  template: '<VSelect v-bind="$props" />',
 });
+
+export const Default = Template.bind({});
+Default.args = {
+  placeholder: 'Placeholder',
+};

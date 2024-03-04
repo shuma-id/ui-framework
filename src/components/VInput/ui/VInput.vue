@@ -67,11 +67,6 @@ export default {
     font-weight: 400;
     color: #000;
     transition: background-color 0.3s, border-color 0.3s;
-
-    &:hover {
-      color: #000;
-      background: #F7F7F7;
-    }
   }
 
   .placeholder {
@@ -94,6 +89,13 @@ export default {
     left: -33px;
     opacity: 0;
     transition: 0.3s;
+  }
+}
+
+.v-input:hover {
+  input {
+    color: #000;
+    background: #F7F7F7;
   }
 }
 

@@ -10,10 +10,17 @@ export default {
   },
 };
 
-const Template = (args, { argTypes }) => ({
+const Template = (args, { updateArgs }) => ({
   components: { VSelect },
-  props: Object.keys(argTypes),
-  template: '<VSelect v-bind="$props" />',
+  setup() {
+    return { args };
+  },
+  template: '<VSelect v-bind="args" @update:modelValue="updateArgs" />',
+  methods: {
+    updateArgs(modelValue) {
+      updateArgs({ ...args, modelValue })
+    },
+  },
 });
 
 export const Default = Template.bind({});

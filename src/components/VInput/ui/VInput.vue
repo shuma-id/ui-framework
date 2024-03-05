@@ -2,7 +2,7 @@
   <div class="v-input" :class="{'__with-error': error, '__disabled': disabled, '__complete': isComplete, '__focused': isFocused}">
       <input 
         type="text" id="VInput" 
-        :value="modelValue" :disabled="disabled"
+        :value="modelValue" :disabled="disabled" :readonly="readonly"
         @input="updateValue" @focus="focus" @blur="blur"
       />
       <label for="VInput" class="placeholder">{{ placeholder }}</label>
@@ -18,6 +18,7 @@ export default {
     placeholder: { type: String, default: ''},
     disabled: { type: Boolean, default: false},
     error: { type: Boolean, default: false},
+    readonly: { type: Boolean, default: false},
   },
   data() {
     return {
@@ -30,9 +31,11 @@ export default {
     },
     focus() {
       this.isFocused = true;
+      this.$emit('focus');
     },
     blur() {
       this.isFocused = false;
+      this.$emit('blur');
     },
   },
   computed: {
@@ -45,6 +48,7 @@ export default {
 
 <style scoped lang="scss">
 .v-input {
+  width: 100%;
   position: relative;
 
   display: flex;
@@ -55,9 +59,10 @@ export default {
   input {
     width: 100%;
     height: 64px;
+    margin-right: -36px;
 
     box-sizing: border-box;
-    padding: 20px 39px 20px 18px;
+    padding: 20px 49px 20px 18px;
     background: #F7F7F7;
     border: 1px solid transparent;
     border-radius: 12px;
@@ -86,7 +91,7 @@ export default {
   .error-icon {
     position: relative;
     top: 0;
-    left: -33px;
+    left: 0;
     opacity: 0;
     transition: 0.3s;
   }
@@ -103,7 +108,7 @@ export default {
   input {
     background: transparent !important;
     border: 1px solid #7000FF;
-    padding: 20px 39px 12px 18px;
+    padding: 20px 49px 12px 18px;
   }
 
   .placeholder {
@@ -115,7 +120,7 @@ export default {
 
 .__complete.v-input {
   input:not(.__focused) {  
-    padding: 20px 39px 12px 18px;
+    padding: 20px 49px 12px 18px;
 
     &:hover {
       background: #F2F2F2;

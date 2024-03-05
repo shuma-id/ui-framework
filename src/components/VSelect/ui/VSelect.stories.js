@@ -7,8 +7,16 @@ export default {
   argTypes: {
     disabled: { control: 'boolean' },
     error: { control: 'boolean' },
+    options: { control: 'object' },
   },
 };
+
+const currencyOptions = [
+  { value: "rub", label: "Russian Ruble" },
+  { value: "usd", label: "US Dollar" },
+  { value: "idr", label: "Indonesian Rupiah" },
+  { value: "eur", label: "Euro" },
+];
 
 const Template = (args, { updateArgs }) => ({
   components: { VSelect },
@@ -26,4 +34,5 @@ const Template = (args, { updateArgs }) => ({
 export const Default = Template.bind({});
 Default.args = {
   placeholder: 'Placeholder',
+  options: currencyOptions,
 };

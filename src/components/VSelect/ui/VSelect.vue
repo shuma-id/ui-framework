@@ -1,14 +1,13 @@
 <template>
-<div class="v-select" :class="{'__focused': isFocused, '__with-error': error}" >
+<div class="v-select" :class="{'__focused': isFocused, '__with-error': error}" @click="clickHandler">
     <div class="input__wrapper">
         <VInput v-model="selectedOption.label" ref="input"
         @focus="focusHandler" @blur="blurHandler"
-        :placeholder="placeholder" :disabled="disabled" :error="error" :readonly="true"
-        />
+        :placeholder="placeholder" :disabled="disabled" :error="error" :readonly="true"/>
         <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon">
     </div>
     <div class="list__container" v-if="isFocused">
-        <div class="row" v-for="(option, index) in currencyOptions" 
+        <div class="row" v-for="(option, index) in options" 
             :key="option.value" @click="selectOption(option)"
             :class="{'selected': option.value === modelValue, 'highlighted': index === selectedIndex}">
             {{ option.label }}
@@ -16,7 +15,7 @@
     </div>
 </div>
 </template>
-    
+
 <script>
 import VInput from '../../VInput/ui/VInput.vue';
 
@@ -26,22 +25,17 @@ export default {
         VInput,
     },
     props: {
-        modelValue: String,
-        placeholder: String,
-        disabled: Boolean,
-        error: Boolean,
+        modelValue: {type: String, default: ''},
+        placeholder: {type: String, default: ''},
+        disabled: {type: Boolean, default: false},
+        error: {type: Boolean, default: false},
+        options: Array,
     },
     data() {
         return {
             isFocused: false,
             selectedIndex: -1,
-            currencyOptions: [
-                {value: "rub", label: "Russian Ruble"},
-                {value: "usd", label: "US Dollar"},
-                {value: "idr", label: "Indonesian Rupiah"},
-                {value: "eur", label: "Euro"},
-            ],
-        }
+        };
     },
     mounted() {
         window.addEventListener('keydown', this.handleKeydown)
@@ -53,29 +47,45 @@ export default {
         selectOption(option) {
             this.$emit('update:modelValue', option.value);
             this.isFocused = false;
+            this.selectedIndex = -1;
+            this.$refs.input.blur();
         },
         focusHandler() {
             this.isFocused = true;
         },
         blurHandler() {
-            this.isFocused = false;
+            setTimeout(() => {
+                if (this.isFocused) {
+                    this.isFocused = false;
+                }
+            }, 99);
         },
         handleKeydown(e) {
-            if (e.key === 'ArrowDown' && this.selectedIndex < this.currencyOptions.length - 1) {
-                this.selectedIndex++;
-            } else if (e.key === 'ArrowUp' && this.selectedIndex > 0) {
-                this.selectedIndex--;
-            } else if (e.key === 'Enter') {
-                this.selectOption(this.currencyOptions[this.selectedIndex]);
-                if (this.$refs.input) {
-                    this.$refs.input.blur();
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                this.selectedIndex = this.selectedIndex < this.options.length - 1 ? this.selectedIndex + 1 : 0;
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                this.selectedIndex = this.selectedIndex > 0 ? this.selectedIndex - 1 : this.options.length - 1;
+            } else if (e.key === 'Enter' && this.isFocused) {
+                e.preventDefault();
+                if (this.selectedIndex >= 0 && this.selectedIndex < this.options.length) {
+                    this.selectOption(this.options[this.selectedIndex]);
                 }
+            }
+        },
+        mousedownHandler(e) {
+            e.preventDefault();
+        },
+        clickHandler() {
+            if (!this.isFocused) {
+                this.focusHandler();
             }
         },
     },
     computed: {
         selectedOption() {
-            return this.currencyOptions.find(option => option.value === this.modelValue) || {};
+            return this.options.find(option => option.value === this.modelValue) || {};
         },
     },
 };

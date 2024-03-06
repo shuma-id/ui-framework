@@ -1,15 +1,16 @@
 <template>
-<div class="v-select" :class="{'__focused': isFocused, '__with-error': error}" @click="clickHandler">
+<div class="v-select" :class="{'__focused': isFocused, '__with-error': error}">
     <div class="input__wrapper">
-        <VInput v-model="selectedOption.label" ref="input"
-        @focus="focusHandler" @blur="blurHandler"
-        :placeholder="placeholder" :disabled="disabled" :error="error" :readonly="true"/>
+        <VInput v-model="selectedOption.label" ref="input" @focus="focusHandler" @blur="blurHandler"
+            :placeholder="placeholder" :disabled="disabled" :error="error" :readonly="true"
+        />
         <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon">
     </div>
-    <div class="list__container" v-if="isFocused">
+    <div class="list__container" v-if="isFocused" @mousedown.prevent="mousedownHandler" @keydown="handleKeydown" tabindex="0">
         <div class="row" v-for="(option, index) in options" 
             :key="option.value" @click="selectOption(option)"
-            :class="{'selected': option.value === modelValue, 'highlighted': index === selectedIndex}">
+            :class="{'selected': option.value === modelValue, 'highlighted': index === selectedIndex}" 
+            @mouseover="highlightOption(index)">
             {{ option.label }}
         </div>
     </div>
@@ -37,12 +38,6 @@ export default {
             selectedIndex: -1,
         };
     },
-    mounted() {
-        window.addEventListener('keydown', this.handleKeydown)
-    },
-    beforeDestroy() {
-        window.removeEventListener('keydown', this.handleKeydown);
-    },
     methods: {
         selectOption(option) {
             this.$emit('update:modelValue', option.value);
@@ -52,35 +47,35 @@ export default {
         },
         focusHandler() {
             this.isFocused = true;
+            document.addEventListener('keydown', this.handleKeydown);
         },
         blurHandler() {
-            setTimeout(() => {
-                if (this.isFocused) {
-                    this.isFocused = false;
-                }
-            }, 99);
+            this.isFocused = false;
+            document.removeEventListener('keydown', this.handleKeydown);
         },
-        handleKeydown(e) {
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                this.selectedIndex = this.selectedIndex < this.options.length - 1 ? this.selectedIndex + 1 : 0;
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                this.selectedIndex = this.selectedIndex > 0 ? this.selectedIndex - 1 : this.options.length - 1;
-            } else if (e.key === 'Enter' && this.isFocused) {
-                e.preventDefault();
-                if (this.selectedIndex >= 0 && this.selectedIndex < this.options.length) {
-                    this.selectOption(this.options[this.selectedIndex]);
-                }
-            }
-        },
-        mousedownHandler(e) {
-            e.preventDefault();
-        },
-        clickHandler() {
+        mousedownHandler() {
             if (!this.isFocused) {
                 this.focusHandler();
             }
+        },
+        handleKeydown(e) {
+            if (this.isFocused) {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (e.key === 'ArrowDown') {
+                        this.selectedIndex = (this.selectedIndex + 1) % this.options.length;
+                    } else if (e.key === 'ArrowUp') {
+                        this.selectedIndex = (this.selectedIndex - 1 + this.options.length) % this.options.length;
+                    }
+                } else if (e.key === 'Enter') {
+                    if (this.selectedIndex >= 0 && this.selectedIndex < this.options.length) {
+                        this.selectOption(this.options[this.selectedIndex]);
+                    }
+                }
+            }
+        },
+        highlightOption(index) {
+            this.selectedIndex = index;
         },
     },
     computed: {
@@ -93,9 +88,9 @@ export default {
 
 <style scoped lang="scss">
 .v-select {
-    width: 100%;
+     width: 100%;
     
-    .input__wrapper {
+     .input__wrapper {
         position: relative;
         display: flex;
         align-items: center;
@@ -131,7 +126,7 @@ export default {
             &:hover {
                 background: #F7F7F7;
             }
-
+            
             &.highlighted {
                 background: #F7F7F7;
             }
@@ -146,4 +141,4 @@ export default {
 .__with-error.v-select .arrow-icon {
     opacity: 0;
 }
-</style>    
+</style>

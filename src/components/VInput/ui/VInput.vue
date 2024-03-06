@@ -3,7 +3,7 @@
       <input 
         type="text" id="VInput" 
         :value="modelValue" :disabled="disabled" :readonly="readonly"
-        @input="updateValue" @focus="focus" @blur="blur"
+        @input="updateValue" @focus="focus" @blur="blur" @mousedown="mousedown"
       />
       <label for="VInput" class="placeholder">{{ placeholder }}</label>
       <img class="error-icon" src="./icon-errors.svg" alt="Error icon image">
@@ -36,6 +36,9 @@ export default {
     blur() {
       this.isFocused = false;
       this.$emit('blur');
+    },
+    mousedown() {
+      this.focus();
     },
   },
   computed: {

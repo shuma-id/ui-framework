@@ -1,3 +1,3 @@
-import VSelect from './ui/VSelect.vue';
+import VSelect from "./ui/VSelect.vue";
 
 export { VSelect };

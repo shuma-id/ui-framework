@@ -2,7 +2,7 @@
   <div class="v-select" :class="{ __focused: isFocused, '__with-error': error }">
     <div class="input__wrapper">
       <VInput
-        v-model="selectedOption.label"
+        v-model="searchQuery"
         ref="input"
         @focus="focusHandler"
         @blur="blurHandler"
@@ -10,25 +10,29 @@
         :placeholder="placeholder"
         :disabled="disabled"
         :error="error"
-        :readonly="true"
+        :readonly="false"
       />
       <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
     </div>
     <div class="options__container" v-if="isFocused" @mousedown.prevent tabindex="0">
       <div
         class="row"
-        v-for="(option, index) in options"
+        v-if="filteredOptions.length > 0"   
+        v-for="(option, index) in filteredOptions"
         :key="option.value"
-        @click="selectOption(option)"
+        @click="selectOption(option)"   
         :class="{ selected: option.value === modelValue, highlighted: index === selectedIndex }"
         @mouseover="highlightOption(index)"
       >
         {{ option.label }}
       </div>
+      <div v-else-if="searchQuery.trim() !== ''">
+        No results found
+      </div>
     </div>
   </div>
 </template>
-    
+
 <script>
 import VInput from "../../VInput/ui/VInput.vue";
 
@@ -48,13 +52,15 @@ export default {
     return {
       isFocused: false,
       selectedIndex: -1,
+      searchQuery: "",
     };
-  },
+  },  
   methods: {
-    selectOption(option) {
+    selectOption(option) {  
       this.$emit("update:modelValue", option.value);
       this.isFocused = false;
       this.selectedIndex = -1;
+      this.searchQuery = option.label;
       this.$refs.input.blur();
     },
     focusHandler() {
@@ -67,13 +73,13 @@ export default {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
         if (e.key === "ArrowDown") {
-          this.selectedIndex = (this.selectedIndex + 1) % this.options.length;
+          this.selectedIndex = (this.selectedIndex + 1) % this.filteredOptions.length;
         } else if (e.key === "ArrowUp") {
-          this.selectedIndex = (this.selectedIndex - 1 + this.options.length) % this.options.length;
+          this.selectedIndex = (this.selectedIndex - 1 + this.filteredOptions.length) % this.filteredOptions.length;
         }
       } else if (e.key === "Enter") {
-        if (this.selectedIndex >= 0 && this.selectedIndex < this.options.length) {
-          this.selectOption(this.options[this.selectedIndex]);
+        if (this.selectedIndex >= 0 && this.selectedIndex < this.filteredOptions.length) {
+          this.selectOption(this.filteredOptions[this.selectedIndex]);
         }
       }
     },
@@ -82,8 +88,10 @@ export default {
     },
   },
   computed: {
-    selectedOption() {
-      return this.options.find((option) => option.value === this.modelValue) || {};
+    filteredOptions() {
+      return this.options.filter(option =>
+        option.label.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
 };

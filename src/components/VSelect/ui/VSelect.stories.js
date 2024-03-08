@@ -1,3 +1,4 @@
+import ComponentDemo from "./ComponentDemo.vue";
 import VSelect from "./VSelect.vue";
 
 export default {
@@ -12,7 +13,7 @@ export default {
 };
 
 const currencyOptions = [
-    { value: "rub", label: "Russian Ruble" },
+    { value: "rub", label: "<ComponentDemo />" },
     { value: "usd", label: "US Dollar" },
     { value: "idr", label: "Indonesian Rupiah" },
     { value: "eur", label: "Euro" },
@@ -35,4 +36,25 @@ export const Default = Template.bind({});
 Default.args = {
     placeholder: "Placeholder",
     options: currencyOptions,
+};
+
+const TemplateDeff = (args, { updateArgs }) => ({
+    components: { VSelect },
+    setup() {
+        return { args };
+    },
+    template: '<VSelect v-bind="args" @update:modelValue="updateArgs" />',
+    methods: {
+        updateArgs(modelValue) {
+            updateArgs({ ...args, modelValue });
+        },
+    },
+});
+export const Default2 = TemplateDeff.bind({});
+Default2.args = {
+    placeholder: "Placeholder",
+    options: [
+        { value: "One Two", labelComponent: ComponentDemo, props: { name: "One" } },
+        { value: "One Threee", labelComponent: ComponentDemo, props: { name: "Two" } },
+    ],
 };

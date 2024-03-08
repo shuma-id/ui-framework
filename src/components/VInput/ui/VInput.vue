@@ -125,7 +125,7 @@ export default {
 .__focused.v-input {
     input {
         background: transparent !important;
-        border: 1px solid #7000ff;
+        border: 1px solid var(--main-color);
         padding: 20px 49px 12px 18px;
     }
 

@@ -2,7 +2,7 @@
   <div class="v-select" :class="{ __focused: isFocused, '__with-error': error }">
     <div class="input__wrapper">
       <VInput
-        v-model="searchQuery"
+        v-model="filteredQuery"
         ref="input"
         @focus="focusHandler"
         @blur="blurHandler"
@@ -10,7 +10,7 @@
         :placeholder="placeholder"
         :disabled="disabled"
         :error="error"
-        :readonly="false"
+        :readonly="isInputReadonly"
       />
       <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
     </div>
@@ -23,10 +23,10 @@
         @click="selectOption(option)"   
         :class="{ selected: option.value === modelValue, highlighted: index === selectedIndex }"
         @mouseover="highlightOption(index)"
-      >
+      > 
         {{ option.label }}
       </div>
-      <div v-else-if="searchQuery.trim() !== ''">
+      <div v-else-if="filteredQuery.trim() !== ''">
         No results found
       </div>
     </div>
@@ -47,12 +47,15 @@ export default {
     disabled: { type: Boolean, default: false },
     error: { type: Boolean, default: false },
     options: Array,
+
+    filterable: { type: Boolean, default: false },
   },
   data() {
     return {
       isFocused: false,
       selectedIndex: -1,
-      searchQuery: "",
+      filteredQuery: "",
+      inputState: !this.filterable,
     };
   },  
   methods: {
@@ -60,14 +63,17 @@ export default {
       this.$emit("update:modelValue", option.value);
       this.isFocused = false;
       this.selectedIndex = -1;
-      this.searchQuery = option.label;
+      this.filteredQuery = option.label;
       this.$refs.input.blur();
     },
     focusHandler() {
       this.isFocused = true;
+      this.inputState = false;
     },
     blurHandler() {
       this.isFocused = false;
+      this.inputState = true;
+      this.clearInput();
     },
     handleKeydown(e) {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -86,12 +92,23 @@ export default {
     highlightOption(index) {
       this.selectedIndex = index;
     },
+    clearInput() {
+      if (this.filteredOptions.length === 0) {
+        this.filteredQuery = "";
+      }
+    },
   },
   computed: {
     filteredOptions() {
+      if (!this.filterable) {
+        return this.options;
+      }
       return this.options.filter(option =>
-        option.label.toLowerCase().includes(this.searchQuery.toLowerCase())
+        option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
       );
+    },
+    isInputReadonly() {
+      return !this.filterable || this.inputState;
     },
   },
 };

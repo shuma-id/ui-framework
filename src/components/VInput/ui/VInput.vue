@@ -11,6 +11,7 @@
         <input
             type="text"
             id="VInput"
+            ref="input"
             :value="modelValue"
             :disabled="disabled"
             :readonly="readonly"

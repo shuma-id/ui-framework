@@ -2,15 +2,15 @@
   <div class="v-select" :class="{ __focused: isFocused, '__with-error': error }">
     <div class="input__wrapper">
       <VInput
-        v-model="filteredQuery"
-        ref="input"
+        ref="VInput"
+        v-model="filterQuery"
         @focus="focusHandler"
         @blur="blurHandler"
         @keydown="handleKeydown"
         :placeholder="placeholder"
         :disabled="disabled"
         :error="error"
-        :readonly="isInputReadonly"
+        :readonly="!filterable"
       />
       <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
     </div>
@@ -26,7 +26,7 @@
       > 
         {{ option.label }}
       </div>
-      <div v-else-if="filteredQuery.trim() !== ''">
+      <div v-else-if="filterQuery.trim() !== ''">
         No results found
       </div>
     </div>
@@ -46,16 +46,15 @@ export default {
     placeholder: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     error: { type: Boolean, default: false },
-    options: Array,
-
     filterable: { type: Boolean, default: false },
+    options: Array,
   },
   data() {
     return {
+      filterQuery: "",
       isFocused: false,
       selectedIndex: -1,
-      filteredQuery: "",
-      inputState: !this.filterable,
+      selectedOption: null, // свойство selectedOption
     };
   },  
   methods: {
@@ -63,17 +62,16 @@ export default {
       this.$emit("update:modelValue", option.value);
       this.isFocused = false;
       this.selectedIndex = -1;
-      this.filteredQuery = option.label;
-      this.$refs.input.blur();
+      this.filterQuery = option.label;
+      this.selectedOption = option; // сохраняем выбранный элемент
+      this.$refs.VInput.$refs.input.blur();
     },
     focusHandler() {
       this.isFocused = true;
-      this.inputState = false;
     },
     blurHandler() {
       this.isFocused = false;
-      this.inputState = true;
-      this.clearInput();
+      this.resetInput();
     },
     handleKeydown(e) {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -92,10 +90,8 @@ export default {
     highlightOption(index) {
       this.selectedIndex = index;
     },
-    clearInput() {
-      if (this.filteredOptions.length === 0) {
-        this.filteredQuery = "";
-      }
+    resetInput() {
+      this.filterQuery = this.selectedOption ? this.selectedOption.label : "";
     },
   },
   computed: {
@@ -104,11 +100,8 @@ export default {
         return this.options;
       }
       return this.options.filter(option =>
-        option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
+        option.label.toLowerCase().startsWith(this.filterQuery.toLowerCase())
       );
-    },
-    isInputReadonly() {
-      return !this.filterable || this.inputState;
     },
   },
 };

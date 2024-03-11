@@ -7,7 +7,7 @@
         tabindex="0"
     >
         <div class="toggleButton" @click="toggleDropdown">
-            <span class="point"></span><span class="point"></span><span class="point"></span>
+            <span v-for="n in 3" :key="n" class="point"></span>
         </div>
         <div class="action__list" v-if="isActive">
             <div
@@ -74,14 +74,7 @@ export default {
 
 <style scoped lang="scss">
 .v-dropdown {
-    position: absolute;
-    width: 100%;
     outline: none;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
 
     .toggleButton {
         width: 48px;
@@ -114,13 +107,9 @@ export default {
     }
 
     .action__list {
-        width: 100%;
-        margin-top: 6px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        position: absolute;
+        top: 54px;
+        right: 0px;
 
         background: #fff;
         box-sizing: border-box;

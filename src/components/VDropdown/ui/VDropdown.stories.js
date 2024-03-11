@@ -10,30 +10,11 @@ export default {
 };
 
 const ActionList = [
-    { action: "edit", label: "Edit" },
-    { action: "share", label: "Share" },
-    { action: "save", label: "Save" },
-    { action: "delete", label: "Delete" },
+    { action: "edit", label: "Edit", callback: () => alert('edit')  },
+    { action: "share", label: "Share", callback: () => alert('share') },
+    { action: "save", label: "Save", callback: () => alert('save') },
+    { action: "delete", label: "Delete", callback: () => alert('delete') },
 ];
-
-const testAction = (action) => {
-    switch (action.action) {
-        case "edit":
-            console.log("Editing...");
-            break;
-        case "share":
-            console.log("Sharing...");
-            break;
-        case "save":
-            console.log("Saving...");
-            break;
-        case "delete":
-            console.log("Deleting...");
-            break;
-        default:
-            console.log("Unknown action");
-    }
-};
 
 const Template = (args, { argTypes }) => ({
     components: { VDropdown },
@@ -41,11 +22,10 @@ const Template = (args, { argTypes }) => ({
         return { args };
     },
     props: Object.keys(argTypes),
-    template: '<VDropdown v-bind="args" :actionHandler="args.actionHandler" />',
+    template: '<VDropdown v-bind="args" />',
 });
 
 export const Default = Template.bind({});
 Default.args = {
     actions: ActionList,
-    actionHandler: testAction,
 };

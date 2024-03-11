@@ -14,7 +14,7 @@
                 class="action__item"
                 v-for="(action, index) in actions"
                 :key="index"
-                @click="performAction(index)"
+                @click="performAction(action)"
                 :class="{ selected: index === selectedIndex }"
                 @mouseover="highlightAction(index)"
             >
@@ -29,7 +29,6 @@ export default {
     name: "VDropdown",
     props: {
         actions: Array,
-        actionHandler: { type: Function, required: true },
     },
     data() {
         return {
@@ -44,11 +43,10 @@ export default {
         hideDropdown() {
             this.isActive = false;
         },
-        performAction(index) {
+        performAction(action) {
             this.isActive = false;
             this.selectedIndex = -1;
-            const action = this.actions[index];
-            this.actionHandler(action);
+            action.callback();
         },
         highlightAction(index) {
             this.selectedIndex = index;
@@ -65,7 +63,7 @@ export default {
                     break;
                 case "Enter":
                     if (this.selectedIndex >= 0 && this.selectedIndex < this.actions.length) {
-                        this.performAction(this.selectedIndex);
+                        this.performAction(this.actions[this.selectedIndex]);
                     }
                     break;
             }

@@ -1,11 +1,10 @@
 <template>
     <div
-        class="v-drop-down"
+        class="v-dropdown"
         :class="{ __active: isActive }"
         @keydown="handleKeydown"
         @blur="hideDropdown"
         tabindex="0"
-        ref="dropdown"
     >
         <div class="toggleButton" @click="toggleDropdown">
             <span class="point"></span><span class="point"></span><span class="point"></span>
@@ -15,7 +14,7 @@
                 class="action__item"
                 v-for="(action, index) in actions"
                 :key="index"
-                @click="performAction(action)"
+                @click="performAction(index)"
                 :class="{ selected: index === selectedIndex }"
                 @mouseover="highlightAction(index)"
             >
@@ -27,9 +26,10 @@
 
 <script>
 export default {
-    name: "VDropDown",
+    name: "VDropdown",
     props: {
-        actions: { type: Array, default: () => [] },
+        actions: Array,
+        actionHandler: { type: Function, required: true },
     },
     data() {
         return {
@@ -40,18 +40,15 @@ export default {
     methods: {
         toggleDropdown() {
             this.isActive = !this.isActive;
-            if (this.isActive) {
-                this.$refs.dropdown.focus();
-            }
         },
         hideDropdown() {
             this.isActive = false;
         },
-        performAction(action) {
+        performAction(index) {
             this.isActive = false;
             this.selectedIndex = -1;
-            // For example - then DELETE
-            alert(`Действие "${action.label}" выполнено`);
+            const action = this.actions[index];
+            this.actionHandler(action);
         },
         highlightAction(index) {
             this.selectedIndex = index;
@@ -68,7 +65,7 @@ export default {
                     break;
                 case "Enter":
                     if (this.selectedIndex >= 0 && this.selectedIndex < this.actions.length) {
-                        this.performAction(this.actions[this.selectedIndex]);
+                        this.performAction(this.selectedIndex);
                     }
                     break;
             }
@@ -78,7 +75,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.v-drop-down {
+.v-dropdown {
+    position: absolute;
     width: 100%;
     outline: none;
 
@@ -90,7 +88,6 @@ export default {
     .toggleButton {
         width: 48px;
         height: 48px;
-        outline: none;
 
         display: flex;
         justify-content: center;
@@ -99,6 +96,8 @@ export default {
 
         background: #f7f6f5;
         border-radius: 12px;
+        outline: none;
+        cursor: pointer;
 
         &:hover {
             background: #6500e5;
@@ -149,7 +148,7 @@ export default {
     }
 }
 
-.__active.v-drop-down .toggleButton {
+.__active.v-dropdown .toggleButton {
     background: #5a00cc;
 
     .point {

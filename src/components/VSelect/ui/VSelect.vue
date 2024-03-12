@@ -35,6 +35,7 @@
 
 <script>
 import VInput from "../../VInput/ui/VInput.vue";
+import { useDropdown } from "../../../composables/useDropdown.js";
 
 export default {
   name: "VSelect",
@@ -46,70 +47,13 @@ export default {
     placeholder: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     error: { type: Boolean, default: false },
-    options: Array,
-
     filterable: { type: Boolean, default: false },
+    options: Array,
   },
-  data() {
-    return {
-      isFocused: false,
-      selectedIndex: -1,
-      filteredQuery: "",
-      inputState: !this.filterable,
-    };
-  },  
-  methods: {
-    selectOption(option) {  
-      this.$emit("update:modelValue", option.value);
-      this.isFocused = false;
-      this.selectedIndex = -1;
-      this.filteredQuery = option.label;
-      this.$refs.input.blur();
-    },
-    focusHandler() {
-      this.isFocused = true;
-      this.inputState = false;
-    },
-    blurHandler() {
-      this.isFocused = false;
-      this.inputState = true;
-      this.clearInput();
-    },
-    handleKeydown(e) {
-      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-        e.preventDefault();
-        if (e.key === "ArrowDown") {
-          this.selectedIndex = (this.selectedIndex + 1) % this.filteredOptions.length;
-        } else if (e.key === "ArrowUp") {
-          this.selectedIndex = (this.selectedIndex - 1 + this.filteredOptions.length) % this.filteredOptions.length;
-        }
-      } else if (e.key === "Enter") {
-        if (this.selectedIndex >= 0 && this.selectedIndex < this.filteredOptions.length) {
-          this.selectOption(this.filteredOptions[this.selectedIndex]);
-        }
-      }
-    },
-    highlightOption(index) {
-      this.selectedIndex = index;
-    },
-    clearInput() {
-      if (this.filteredOptions.length === 0) {
-        this.filteredQuery = "";
-      }
-    },
-  },
-  computed: {
-    filteredOptions() {
-      if (!this.filterable) {
-        return this.options;
-      }
-      return this.options.filter(option =>
-        option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
-      );
-    },
-    isInputReadonly() {
-      return !this.filterable || this.inputState;
-    },
+  setup(props) {
+    const { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown } = useDropdown(props.options, props.filterable);
+
+    return { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown };
   },
 };
 </script>

@@ -12,7 +12,7 @@
         <div class="action__list" v-if="isActive">
             <div
                 class="action__item"
-                v-for="(action, index) in actions"
+                v-for="(action, index) in filteredOptions"
                 :key="index"
                 @click="performAction(action)"
                 :class="{ selected: index === selectedIndex }"
@@ -25,49 +25,35 @@
 </template>
 
 <script>
+import { useDropdown } from "../../../composables/useDropdown.js";
+
 export default {
     name: "VDropdown",
     props: {
         actions: Array,
     },
-    data() {
+    setup(props) {
+        const {
+            isActive,
+            selectedIndex,
+            toggleDropdown,
+            hideDropdown,
+            performAction,
+            highlightAction,
+            handleKeydown,
+            filteredOptions,
+        } = useDropdown(props.actions, false);
+
         return {
-            isActive: false,
-            selectedIndex: -1,
+            isActive,
+            selectedIndex,
+            toggleDropdown,
+            hideDropdown,
+            performAction,
+            highlightAction,
+            handleKeydown,
+            filteredOptions,
         };
-    },
-    methods: {
-        toggleDropdown() {
-            this.isActive = !this.isActive;
-        },
-        hideDropdown() {
-            this.isActive = false;
-        },
-        performAction(action) {
-            this.isActive = false;
-            this.selectedIndex = -1;
-            action.callback();
-        },
-        highlightAction(index) {
-            this.selectedIndex = index;
-        },
-        handleKeydown(e) {
-            if (!this.isActive) return;
-            switch (e.key) {
-                case "ArrowDown":
-                    this.selectedIndex = (this.selectedIndex + 1) % this.actions.length;
-                    break;
-                case "ArrowUp":
-                    this.selectedIndex =
-                        (this.selectedIndex - 1 + this.actions.length) % this.actions.length;
-                    break;
-                case "Enter":
-                    if (this.selectedIndex >= 0 && this.selectedIndex < this.actions.length) {
-                        this.performAction(this.actions[this.selectedIndex]);
-                    }
-                    break;
-            }
-        },
     },
 };
 </script>
@@ -127,6 +113,7 @@ export default {
             font-size: 16px;
             font-weight: 400;
             color: #000;
+            cursor: pointer;
 
             &.selected {
                 background: #f7f7f7;

@@ -12,7 +12,7 @@
         <div class="action__list" v-if="isActive">
             <div
                 class="action__item"
-                v-for="(action, index) in filteredOptions"
+                v-for="(action, index) in actions"
                 :key="index"
                 @click="performAction(action)"
                 :class="{ selected: index === selectedIndex }"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { useDropdown } from "../../../composables/useDropdown.js";
+import { useDropdown } from '../../../composables/useDropdown.js'; 
 
 export default {
     name: "VDropdown",
@@ -33,27 +33,9 @@ export default {
         actions: Array,
     },
     setup(props) {
-        const {
-            isActive,
-            selectedIndex,
-            toggleDropdown,
-            hideDropdown,
-            performAction,
-            highlightAction,
-            handleKeydown,
-            filteredOptions,
-        } = useDropdown(props.actions, false);
-
-        return {
-            isActive,
-            selectedIndex,
-            toggleDropdown,
-            hideDropdown,
-            performAction,
-            highlightAction,
-            handleKeydown,
-            filteredOptions,
-        };
+        const { selectedIndex, isActive, toggleDropdown, hideDropdown, performAction, highlightAction, handleKeydown } = useDropdown(props, props.actions);
+        
+        return { selectedIndex, isActive, toggleDropdown, hideDropdown, performAction, highlightAction, handleKeydown };
     },
 };
 </script>

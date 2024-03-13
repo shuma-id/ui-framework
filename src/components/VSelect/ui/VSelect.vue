@@ -35,7 +35,7 @@
 
 <script>
 import VInput from "../../VInput/ui/VInput.vue";
-import { useDropdown } from "../../../composables/useDropdown.js";
+import { useDropdown } from '../../../composables/useDropdown.js'; 
 
 export default {
   name: "VSelect",
@@ -50,8 +50,8 @@ export default {
     filterable: { type: Boolean, default: false },
     options: Array,
   },
-  setup(props) {
-    const { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown } = useDropdown(props.options, props.filterable);
+  setup(props, { emit }) {
+    const { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown } = useDropdown(props, emit, props.options, props.filterable);
 
     return { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown };
   },

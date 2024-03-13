@@ -1,19 +1,18 @@
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 
-export function useDropdown(options, filterable) {
+export function useDropdown(props, emit, options) {
     const isFocused = ref(false);
     const selectedIndex = ref(-1);
     const filteredQuery = ref("");
-    const inputState = ref(false);
-    const filterableRef = ref(filterable);
+    const inputState = ref(!props.filterable);
 
     const selectOption = function (option) {
-        if (option.context && option.context.$emit) {
-            option.context.$emit("update:modelValue", option.value);
-        }
+        emit("update:modelValue", option.value);
         isFocused.value = false;
         selectedIndex.value = -1;
         filteredQuery.value = option.label;
+        // понять как правильно передать
+        // this.$refs.input.blur();
     };
 
     const focusHandler = function () {
@@ -24,6 +23,29 @@ export function useDropdown(options, filterable) {
     const blurHandler = function () {
         isFocused.value = false;
         inputState.value = true;
+        clearInput();
+    };
+
+    const handleKeydown = function (e) {
+        const array = props.options || props.actions;
+        switch (e.key) {
+            case "ArrowDown":
+                selectedIndex.value = (selectedIndex.value + 1) % array.length;
+                break;
+            case "ArrowUp":
+                selectedIndex.value = (selectedIndex.value - 1 + array.length) % array.length;
+                break;
+            case "Enter":
+                if (selectedIndex.value >= 0 && selectedIndex.value < array.length) {
+                    const item = array[selectedIndex.value];
+                    if (props.options) {
+                        selectOption(item);
+                    } else {
+                        performAction(item);
+                    }
+                }
+                break;
+        }
     };
 
     const highlightOption = function (index) {
@@ -31,29 +53,24 @@ export function useDropdown(options, filterable) {
     };
 
     const clearInput = function () {
-        if (!filterableRef.value) {
+        if (filteredOptions.value.length === 0) {
             filteredQuery.value = "";
         }
     };
 
     const filteredOptions = computed(() => {
-        if (!filterableRef.value) {
+        if (!props.filterable) {
             return options;
         }
+
         return options.filter((option) =>
             option.label.toLowerCase().startsWith(filteredQuery.value.toLowerCase())
         );
     });
 
     const isInputReadonly = computed(() => {
-        return !filterableRef.value || inputState.value;
+        return !props.filterable || inputState.value;
     });
-
-    const filterableChanged = (newValue) => {
-        inputState.value = newValue;
-    };
-
-    watch(filterableRef, filterableChanged);
 
     const isActive = ref(false);
 
@@ -75,45 +92,23 @@ export function useDropdown(options, filterable) {
         selectedIndex.value = index;
     };
 
-    const handleKeydown = function (e) {
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-            e.preventDefault();
-            const optionsArray = filteredOptions.value || options;
-            if (e.key === "ArrowDown") {
-                selectedIndex.value = (selectedIndex.value + 1) % optionsArray.length;
-            } else if (e.key === "ArrowUp") {
-                selectedIndex.value =
-                    (selectedIndex.value - 1 + optionsArray.length) % optionsArray.length;
-            }
-        } else if (e.key === "Enter") {
-            const selectedOption = filteredOptions.value[selectedIndex.value];
-            if (selectedOption) {
-                selectOption(selectedOption);
-                if (selectedOption.callback) {
-                    selectedOption.callback();
-                }
-            }
-        }
-    };
-
     return {
         isFocused,
         selectedIndex,
         filteredQuery,
         inputState,
         selectOption,
-        handleKeydown,
         focusHandler,
         blurHandler,
         highlightOption,
         clearInput,
-        filterableChanged,
+        filteredOptions,
+        isInputReadonly,
         isActive,
         toggleDropdown,
         hideDropdown,
         performAction,
         highlightAction,
-        filteredOptions,
-        isInputReadonly,
+        handleKeydown,
     };
 }

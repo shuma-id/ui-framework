@@ -32,11 +32,32 @@ export default {
     props: {
         actions: Array,
     },
-    setup(props) {
-        const { selectedIndex, isActive, toggleDropdown, hideDropdown, performAction, highlightAction, handleKeydown } = useDropdown(props, props.actions);
-        
-        return { selectedIndex, isActive, toggleDropdown, hideDropdown, performAction, highlightAction, handleKeydown };
+    data() {
+        return {
+            isActive: false,
+        };
     },
+    setup(props) {
+        const { selectedIndex, handleKeydown } = useDropdown(props, props.actions);
+        
+        return { selectedIndex, handleKeydown };
+    },
+    methods: {
+        toggleDropdown() {
+            this.isActive = !this.isActive;
+        },
+        hideDropdown() {
+            this.isActive = false;
+        },
+        performAction(action) {
+            this.isActive = false;
+            this.selectedIndex = -1;
+            action.callback();
+        },
+        highlightAction(index) {
+            this.selectedIndex = index;
+        },
+    }
 };
 </script>
 

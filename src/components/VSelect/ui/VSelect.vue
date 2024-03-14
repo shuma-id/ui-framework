@@ -3,13 +3,13 @@
     <div class="input__wrapper">
       <VInput
         v-model="filteredQuery"
-        ref="input"
+        ref="inputRef"
         @focus="focusHandler"
         @blur="blurHandler"
         @keydown="handleKeydown"
         :placeholder="placeholder"
         :disabled="disabled"
-        :error="error"
+        :error="error"  
         :readonly="isInputReadonly"
       />
       <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import VInput from "../../VInput/ui/VInput.vue";
 import { useDropdown } from '../../../composables/useDropdown.js'; 
 
@@ -50,10 +51,57 @@ export default {
     filterable: { type: Boolean, default: false },
     options: Array,
   },
+  data() {
+    return {
+      inputState: !this.filterable,
+    };
+  },  
   setup(props, { emit }) {
-    const { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown } = useDropdown(props, emit, props.options, props.filterable);
+    const inputRef = ref(null)
+    
+    const selectOption = ref((option) => {
+      emit("update:modelValue", option.value);
+      isFocused.value = false;
+      selectedIndex.value = -1;
+      filteredQuery.value = option.label;
+      inputRef.value.blur();
+    });
 
-    return { isFocused, selectedIndex, filteredQuery, inputState, selectOption, focusHandler, blurHandler, highlightOption, clearInput, filteredOptions, isInputReadonly, handleKeydown };
+    const { selectedIndex, handleKeydown, isFocused, filteredQuery, input } = useDropdown(props, selectOption, inputRef);
+
+    return { selectedIndex, handleKeydown, isFocused, filteredQuery, selectOption, input, inputRef };
+  },
+  methods: {
+    focusHandler() {
+      this.isFocused = true;
+      this.inputState = false;
+    },
+    blurHandler() {
+      this.isFocused = false; 
+      this.inputState = true;
+      this.clearInput();
+    },
+    highlightOption(index) {
+      this.selectedIndex = index;
+    },
+    clearInput() {
+      if (this.filteredOptions.length === 0) {
+        this.filteredQuery = "";
+      }
+    },
+  },
+  computed: {
+    filteredOptions() {
+      if (!this.filterable) {
+        return this.options;
+      }
+      return this.options.filter(option =>
+        option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
+      );
+    },
+    isInputReadonly() {
+      return !this.filterable || this.inputState;
+    },
   },
 };
 </script>

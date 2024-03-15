@@ -3,7 +3,7 @@
     <div class="input__wrapper">
       <VInput
         v-model="filteredQuery"
-        ref="inputRef"
+        ref="input"
         @focus="focusHandler"
         @blur="blurHandler"
         @keydown="handleKeydown"
@@ -57,19 +57,19 @@ export default {
     };
   },  
   setup(props, { emit }) {
-    const inputRef = ref(null)
+    const input = ref(null)
     
-    const selectOption = ref((option) => {
+    const selectOption = (option) => { 
       emit("update:modelValue", option.value);
       isFocused.value = false;
       selectedIndex.value = -1;
       filteredQuery.value = option.label;
-      inputRef.value.blur();
-    });
+      input.value.blur();
+    };
 
-    const { selectedIndex, handleKeydown, isFocused, filteredQuery, input } = useDropdown(props, selectOption, inputRef);
+    const { selectedIndex, isFocused, filteredQuery, handleKeydown } = useDropdown(props, selectOption, input);
 
-    return { selectedIndex, handleKeydown, isFocused, filteredQuery, selectOption, input, inputRef };
+    return { selectedIndex, isFocused, filteredQuery, handleKeydown, selectOption, input };
   },
   methods: {
     focusHandler() {

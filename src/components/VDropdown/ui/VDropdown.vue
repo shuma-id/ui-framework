@@ -9,7 +9,7 @@
         <div class="toggleButton" @click="toggleDropdown">
             <span v-for="n in 3" :key="n" class="point"></span>
         </div>
-        <div class="action__list" v-show="isActive">
+        <div class="action__list" v-if="isActive">
             <div
                 class="action__item"
                 v-for="(action, index) in actions"
@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import { useDropdown } from '../../../composables/useDropdown.js'; 
+import { ref } from "vue";
+import { useDropdown } from "../../../composables/useDropdown.js";
 
 export default {
     name: "VDropdown",
@@ -33,15 +34,16 @@ export default {
         actions: Array,
     },
     setup(props) {
+        const array = ref(props.actions);
+
         const performAction = (action) => {
             isActive.value = false;
             selectedIndex.value = -1;
             action.callback();
         };
+        const { selectedIndex, isActive, handleKeydown } = useDropdown(array, performAction);
 
-        const { selectedIndex, isActive, handleKeydown } = useDropdown(props, performAction);
-        
-        return { selectedIndex, isActive, handleKeydown, performAction};
+        return { selectedIndex, isActive, handleKeydown, performAction };
     },
     methods: {
         toggleDropdown() {
@@ -53,7 +55,7 @@ export default {
         highlightAction(index) {
             this.selectedIndex = index;
         },
-    }
+    },
 };
 </script>
 

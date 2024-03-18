@@ -43,14 +43,7 @@ export default {
             action.callback();
         };
 
-        const callbackFunction = (action) => {
-            performAction(action);
-        };
-
-        const { selectedIndex, handleKeydown } = useDropdown(
-            array,
-            callbackFunction
-        );
+        const { selectedIndex, handleKeydown } = useDropdown(array, performAction);
 
         return { selectedIndex, isActive, performAction, handleKeydown };
     },

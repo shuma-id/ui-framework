@@ -66,7 +66,6 @@ export default {
         const selectOption = (option) => {
             emit("update:modelValue", option.value);
             isFocused.value = false;
-            selectedIndex.value = -1;
             filteredQuery.value = option.label;
             input.value.blur();
         };

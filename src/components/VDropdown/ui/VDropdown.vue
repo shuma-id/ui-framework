@@ -39,7 +39,6 @@ export default {
 
         const performAction = (action) => {
             isActive.value = false;
-            selectedIndex.value = -1;
             action.callback();
         };
 
@@ -47,7 +46,6 @@ export default {
 
         return { selectedIndex, isActive, performAction, handleKeydown };
     },
-
     methods: {
         toggleDropdown() {
             this.isActive = !this.isActive;

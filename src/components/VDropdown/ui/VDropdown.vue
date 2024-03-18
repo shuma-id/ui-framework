@@ -34,6 +34,7 @@ export default {
         actions: Array,
     },
     setup(props) {
+        const isActive = ref(false);
         const array = ref(props.actions);
 
         const performAction = (action) => {
@@ -41,10 +42,19 @@ export default {
             selectedIndex.value = -1;
             action.callback();
         };
-        const { selectedIndex, isActive, handleKeydown } = useDropdown(array, performAction);
 
-        return { selectedIndex, isActive, handleKeydown, performAction };
+        const callbackFunction = (action) => {
+            performAction(action);
+        };
+
+        const { selectedIndex, handleKeydown } = useDropdown(
+            array,
+            callbackFunction
+        );
+
+        return { selectedIndex, isActive, performAction, handleKeydown };
     },
+
     methods: {
         toggleDropdown() {
             this.isActive = !this.isActive;

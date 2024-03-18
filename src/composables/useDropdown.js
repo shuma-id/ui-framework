@@ -1,10 +1,7 @@
 import { ref } from "vue";
 
-export function useDropdown(array, selectOptionCallback, performActionCallback) {
+export function useDropdown(array, callbackFunction) {
     const selectedIndex = ref(-1);
-    const isFocused = ref(false);
-    const filteredQuery = ref("");
-    const isActive = ref(false);
 
     const handleKeydown = function (e) {
         switch (e.key) {
@@ -18,13 +15,12 @@ export function useDropdown(array, selectOptionCallback, performActionCallback) 
                     (selectedIndex.value - 1 + array.value.length) % array.value.length;
                 break;
             case "Enter":
-                setTimeout(() => {
-                    selectOptionCallback(array.value[selectedIndex.value]);
-                    performActionCallback(array.value[selectedIndex.value]);
-                }, 0);
+                if (selectedIndex.value !== -1) {
+                    callbackFunction(array.value[selectedIndex.value]);
+                }
                 break;
         }
     };
 
-    return { selectedIndex, isFocused, filteredQuery, isActive, handleKeydown };
+    return { selectedIndex, handleKeydown };
 }

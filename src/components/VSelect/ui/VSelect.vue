@@ -59,6 +59,8 @@ export default {
     },
     setup(props, { emit }) {
         const input = ref(null);
+        const isFocused = ref(false);
+        const filteredQuery = ref('');
         const array = ref(props.options);
 
         const selectOption = (option) => {
@@ -69,12 +71,16 @@ export default {
             input.value.blur();
         };
 
-        const { selectedIndex, isFocused, filteredQuery, handleKeydown } = useDropdown(
-            array,
-            selectOption
-        );
+        const callbackFunction = (option) => {
+            selectOption(option);
+        };
 
-        return { selectedIndex, isFocused, filteredQuery, handleKeydown, selectOption, input };
+        const { selectedIndex, handleKeydown } = useDropdown(
+            array,
+            callbackFunction
+        );
+  
+        return { selectedIndex, isFocused, filteredQuery, input, selectOption, handleKeydown };
     },
     methods: {
         focusHandler() {

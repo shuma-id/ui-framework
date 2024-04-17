@@ -1,17 +1,16 @@
 <template>
   <div class="v-select" :class="{ __focused: isFocused, '__with-error': error }">
     <div class="input__wrapper">
-      <template v-if="selectedOption"><component :is="selectedOption.labelComponent" v-bind="selectedOption.props" /></template>
       <VInput
-        ref="VInput"
-        v-model="filterQuery"
+        v-model="filteredQuery"
+        ref="input"
         @focus="focusHandler"
         @blur="blurHandler"
         @keydown="handleKeydown"
         :placeholder="placeholder"
         :disabled="disabled"
         :error="error"
-        :readonly="!filterable"
+        :readonly="isInputReadonly"
       />
       <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
     </div>
@@ -24,11 +23,10 @@
         @click="selectOption(option)"   
         :class="{ selected: option.value === modelValue, highlighted: index === selectedIndex }"
         @mouseover="highlightOption(index)"
-      >
-        <template v-if="option.labelComponent"><component :is="option.labelComponent" v-bind="option.props" /></template>
-        <template v-else>{{ option.label }}</template>
+      > 
+        {{ option.label }}
       </div>
-      <div v-else-if="filterQuery.trim() !== ''">
+      <div v-else-if="filteredQuery.trim() !== ''">
         No results found
       </div>
     </div>
@@ -36,7 +34,9 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import VInput from "../../VInput/ui/VInput.vue";
+import { useDropdown } from "../../../composables/useDropdown.js";
 
 export default {
   name: "VSelect",
@@ -48,15 +48,16 @@ export default {
     placeholder: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     error: { type: Boolean, default: false },
-    filterable: { type: Boolean, default: false },
     options: Array,
+
+    filterable: { type: Boolean, default: false },
   },
   data() {
     return {
-      filterQuery: "",
       isFocused: false,
       selectedIndex: -1,
-      selectedOption: null, // свойство selectedOption
+      filteredQuery: "",
+      inputState: !this.filterable,
     };
   },  
   methods: {
@@ -64,16 +65,17 @@ export default {
       this.$emit("update:modelValue", option.value);
       this.isFocused = false;
       this.selectedIndex = -1;
-      this.filterQuery = option.label;
-      this.selectedOption = option; // сохраняем выбранный элемент
-      this.$refs.VInput.$refs.input.blur();
+      this.filteredQuery = option.label;
+      this.$refs.input.blur();
     },
     focusHandler() {
       this.isFocused = true;
+      this.inputState = false;
     },
     blurHandler() {
       this.isFocused = false;
-      this.resetInput();
+      this.inputState = true;
+      this.clearInput();
     },
     handleKeydown(e) {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -92,8 +94,10 @@ export default {
     highlightOption(index) {
       this.selectedIndex = index;
     },
-    resetInput() {
-      this.filterQuery = this.selectedOption ? this.selectedOption.label : "";
+    clearInput() {
+      if (this.filteredOptions.length === 0) {
+        this.filteredQuery = "";
+      }
     },
   },
   computed: {
@@ -102,8 +106,11 @@ export default {
         return this.options;
       }
       return this.options.filter(option =>
-        option.label.toLowerCase().startsWith(this.filterQuery.toLowerCase())
+        option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
       );
+    },
+    isInputReadonly() {
+      return !this.filterable || this.inputState;
     },
   },
 };
@@ -111,53 +118,53 @@ export default {
 
 <style scoped lang="scss">
 .v-select {
-  width: 100%;
+    width: 100%;
 
-  .input__wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
+    .input__wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
 
-    .arrow-icon {
-      position: absolute;
-      top: 26px;
-      left: calc(100% - 36px);
+        .arrow-icon {
+            position: absolute;
+            top: 26px;
+            left: calc(100% - 36px);
 
-      transition: 0.3s;
-      pointer-events: none;
+            transition: 0.3s;
+            pointer-events: none;
+        }
     }
-  }
 
-  .options__container {
-    margin-top: 6px;
-    display: flex;
-    flex-direction: column;
+    .options__container {
+        margin-top: 6px;
+        display: flex;
+        flex-direction: column;
 
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0px 3px 15px rgba(76.5, 76.5, 76.5, 0.25);
-    box-sizing: border-box;
-    padding: 24px 12px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0px 3px 15px rgba(76.5, 76.5, 76.5, 0.25);
+        box-sizing: border-box;
+        padding: 24px 12px;
 
-    .row {
-      box-sizing: border-box;
-      padding: 9px 12px;
-      border-radius: 8px;
-      font-size: 18px;
-      cursor: pointer;
+        .row {
+            box-sizing: border-box;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
 
-      &.highlighted {
-        background: #f7f7f7;
-      }
+            &.highlighted {
+                background: #f7f7f7;
+            }
+        }
     }
-  }
 }
 
 .__focused.v-select .arrow-icon {
-  transform: rotate(-180deg);
+    transform: rotate(-180deg);
 }
 
 .__with-error.v-select .arrow-icon {
-  opacity: 0;
+    opacity: 0;
 }
 </style>

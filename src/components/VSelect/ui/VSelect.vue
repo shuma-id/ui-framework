@@ -1,6 +1,7 @@
 <template>
   <div class="v-select" :class="{ __focused: isFocused, '__with-error': error }">
     <div class="input__wrapper">
+      <template v-if="selectedOption"><component :is="selectedOption.labelComponent" v-bind="selectedOption.props" /></template>
       <VInput
         ref="VInput"
         v-model="filterQuery"
@@ -23,8 +24,9 @@
         @click="selectOption(option)"   
         :class="{ selected: option.value === modelValue, highlighted: index === selectedIndex }"
         @mouseover="highlightOption(index)"
-      > 
-        {{ option.label }}
+      >
+        <template v-if="option.labelComponent"><component :is="option.labelComponent" v-bind="option.props" /></template>
+        <template v-else>{{ option.label }}</template>
       </div>
       <div v-else-if="filterQuery.trim() !== ''">
         No results found

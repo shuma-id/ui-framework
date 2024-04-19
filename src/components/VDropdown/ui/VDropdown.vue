@@ -6,7 +6,7 @@
         @blur="hideDropdown"
         tabindex="0"
     >
-        <div class="toggleButton" @click="toggleDropdown">
+        <div class="toggle-button" @click="toggleDropdown">
             <span v-for="n in 3" :key="n" class="point"></span>
         </div>
         <div class="action__list" v-if="isActive">
@@ -62,9 +62,10 @@ export default {
 
 <style scoped lang="scss">
 .v-dropdown {
+    position: relative;
     outline: none;
 
-    .toggleButton {
+    .toggle-button {
         width: 48px;
         height: 48px;
 
@@ -79,7 +80,7 @@ export default {
         cursor: pointer;
 
         &:hover {
-            background: #6500e5;
+            background: #333;
 
             .point {
                 background: #fff;
@@ -96,6 +97,7 @@ export default {
 
     .action__list {
         position: absolute;
+        z-index: 1;
         top: 54px;
         right: 0px;
 
@@ -116,6 +118,7 @@ export default {
             font-weight: 400;
             color: #000;
             cursor: pointer;
+            white-space: nowrap;
 
             &.selected {
                 background: #f7f7f7;
@@ -124,8 +127,8 @@ export default {
     }
 }
 
-.__active.v-dropdown .toggleButton {
-    background: #5a00cc;
+.__active.v-dropdown .toggle-button {
+    background: #000;
 
     .point {
         background: #fff;

@@ -50,15 +50,22 @@
                     <td class="empty-row" :colspan="fieldsLength()">No content</td>
                 </tr>
             </template>
-            <tr v-else>
-                loading
-            </tr>
+            <template v-else>
+                <tr class="row" v-for="i in 3">
+                    <td :colspan="fieldsLength()">
+                        <div v-if="index == 0" class="status"></div>
+                        <VPlaceholder class="row-placeholder" />
+                    </td>
+                </tr>
+            </template>
         </tbody>
     </table>
 </template>
 
 <script setup>
 import { computed, defineProps } from "vue";
+
+import { VPlaceholder } from "../../VPlaceholder";
 
 const props = defineProps({
     vAlign: { type: String, default: "middle" },
@@ -116,7 +123,7 @@ tr:hover .table-cell {
 }
 
 .row-placeholder {
-    height: 54px;
+    height: 46px;
     border: 0px;
 }
 </style>

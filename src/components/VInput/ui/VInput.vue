@@ -9,8 +9,8 @@
         }"
     >
         <input
-            type="text"
-            id="VInput"
+            :type="type"
+            :id="id"
             ref="input"
             :value="modelValue"
             :disabled="disabled"
@@ -29,6 +29,8 @@
 export default {
     name: "VInput",
     props: {
+        id: { type: String, required: true },
+        type: { type: String, default: "text" },
         modelValue: { type: String, default: "" },
         placeholder: { type: String, default: "" },
         disabled: { type: Boolean, default: false },
@@ -43,6 +45,7 @@ export default {
     methods: {
         updateValue($event) {
             this.$emit("update:modelValue", $event.target.value);
+            this.$emit("change", this.modelValue);
         },
         focus() {
             this.isFocused = true;
@@ -89,7 +92,9 @@ export default {
         font-size: 16px;
         font-weight: 400;
         color: #000;
-        transition: background-color 0.3s, border-color 0.3s;
+        transition:
+            background-color 0.3s,
+            border-color 0.3s;
     }
 
     .placeholder {
@@ -137,7 +142,9 @@ export default {
     }
 }
 
-.__complete.v-input {
+.v-input.__complete,
+.v-input:has(input:autofill),
+.v-input:has(input:-webkit-autofill) {
     input:not(.__focused) {
         padding: 20px 49px 12px 18px;
 

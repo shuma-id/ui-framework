@@ -1,13 +1,19 @@
 <template>
-    <button :class="['button', typeClass]" :disabled="disabled">{{ label }}</button>
+    <button :class="['button', typeClass]" :disabled="disabled">
+        <slot v-if="!progress"></slot>
+        <LoadingSpinner v-if="progress" />
+    </button>
 </template>
 
 <script>
+import LoadingSpinner from "../../LoadingSpinner.vue";
+
 export default {
     name: "VButton",
+    components: { LoadingSpinner },
     props: {
-        label: { type: String, required: true },
         type: { type: String, default: "primary" },
+        progress: { type: Boolean, default: false },
         disabled: {
             type: Boolean,
             default: false,
@@ -23,8 +29,10 @@ export default {
 
 <style scoped lang="scss">
 .button {
+    position: relative;
+    width: 100%;
     display: inline-block;
-    min-height: 46px;
+    min-height: 64px;
 
     border: none;
     padding: 6px 24px;

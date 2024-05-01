@@ -1,3 +1,4 @@
 :root {
-    --main-color: red;
+    --color-main: #000;
+    --color-main-hover: #333
 }

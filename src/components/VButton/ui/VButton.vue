@@ -24,7 +24,7 @@ export default {
 <style scoped lang="scss">
 .button {
     display: inline-block;
-    min-height: 64px;
+    min-height: 46px;
 
     border: none;
     padding: 6px 24px;
@@ -36,14 +36,14 @@ export default {
     cursor: pointer;
 
     &--primary {
-        background: #7000ff;
+        background: var(--color-main);
         color: #fff;
 
         &:hover {
-            background: #6500e5;
+            background: var(--color-main-hover);
         }
         &:active {
-            background: #5a00cc;
+            background: var(--color-main-hover);
         }
         &:disabled,
         &.disabled {

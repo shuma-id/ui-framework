@@ -51,9 +51,9 @@
                 </tr>
             </template>
             <template v-else>
-                <tr class="row" v-for="i in 3">
+                <tr class="row" v-for="i in 3" :key="i">
                     <td :colspan="fieldsLength()">
-                        <div v-if="index == 0" class="status"></div>
+                        <div v-if="i == 0" class="status"></div>
                         <VPlaceholder class="row-placeholder" />
                     </td>
                 </tr>
@@ -87,7 +87,6 @@ const fieldsLength = () => {
 
 <style scoped>
 .table {
-    margin-top: 36px;
 }
 .table-cell {
     box-sizing: border-box;
@@ -116,6 +115,10 @@ const fieldsLength = () => {
 
 tr {
     position: relative;
+}
+
+.highlighted td {
+    background: #f2f2f2;
 }
 
 tr:hover .table-cell {

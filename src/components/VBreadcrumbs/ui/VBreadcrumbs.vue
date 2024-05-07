@@ -3,7 +3,6 @@
     <li>
       <a :href="link">{{link}}</a>
     </li>
-    <li>{{lastLnk}}</li>
   </ul>
 </template>
 

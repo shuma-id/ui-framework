@@ -29,7 +29,7 @@ export default {
     background-image: url("../../../assets/arrow-black.svg");
   }
 
-  &_unactive {
+  &_passive {
     background-image: url("../../../assets/arrow-grey.svg");
   }
 

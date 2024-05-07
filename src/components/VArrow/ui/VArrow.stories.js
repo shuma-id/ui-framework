@@ -7,7 +7,7 @@ export default {
     argTypes: {
         type: {
             control: { type: 'select' },
-            options: ['active', 'unactive'],
+            options: ['active', 'passive'],
         },
     },
 };
@@ -26,10 +26,10 @@ ArrowActive.args = {
     type: "active"
 };
 
-export const ArrowUnctive = Template.bind({});
+export const ArrowPassive = Template.bind({});
 
-ArrowUnctive.args = {
-    type: "unactive"
+ArrowPassive.args = {
+    type: "passive"
 };
 
 

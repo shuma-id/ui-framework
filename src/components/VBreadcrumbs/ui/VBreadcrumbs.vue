@@ -3,6 +3,7 @@
     <li>
       <a :href="link">{{link}}</a>
     </li>
+    <li>{{lastLnk}}</li>
   </ul>
 </template>
 
@@ -12,6 +13,11 @@ export default {
   props: {
     links: {
       default: ['']
+    }
+  },
+  data() {
+    return {
+      lastLink: ''
     }
   }
 }

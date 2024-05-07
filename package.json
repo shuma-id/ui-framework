@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "sass": "^1.71.1",
     "storybook": "^7.6.17",
+    "storybook-vue3-router": "^5.0.0",
     "vite": "^5.1.0"
   },
   "exports": {

@@ -9,6 +9,10 @@ export default {
             control: { type: 'select' },
             options: ['active', 'passive'],
         },
+        direction: {
+            control: { type: 'select' },
+            options: ['right', 'bottom', 'left', 'top'],
+        },
     },
 };
 
@@ -17,19 +21,22 @@ const Template = (args) => ({
     setup() {
         return { args };
     },
-    template: '<v-arrow v-bind="args" />',
+    args: {
+       direction: "right"
+    },
+    template: '<VArrow v-bind="args" />',
 });
 
 export const ArrowActive = Template.bind({});
 
 ArrowActive.args = {
-    type: "active"
+    type: "active",
 };
 
 export const ArrowPassive = Template.bind({});
 
 ArrowPassive.args = {
-    type: "passive"
+    type: "passive",
 };
 
 

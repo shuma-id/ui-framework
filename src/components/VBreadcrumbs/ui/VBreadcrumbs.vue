@@ -1,45 +1,28 @@
 <template>
-  <ul class="v-bread-crumbs">
-    <li class="v-bread-crumbs__item" v-for="(link, i) in passiveLinks">
-      <v-arrow type="passive" v-if="i !== 0"></v-arrow>
-      <router-link class="v-bread-crumbs__item-link" :to="createLink(link)">
-        {{link}}
-      </router-link>
-    </li>
-    <li class="v-bread-crumbs__item">
-      <v-arrow type="active"></v-arrow>
-      <p class="v-bread-crumbs__item-last">{{lastActiveLink}}</p>
-    </li>
-  </ul>
+  <div class="v-bread-crumbs">
+    <span class="v-bread-crumbs__item" v-for="(link, i) in links">
+      <VArrow type="passive" direction="right" v-if="link.to && i !== 0"></VArrow>
+      <VArrow type="active" direction="right" v-if="!link.to && i !== 0"></VArrow>
+      <RouterLink class="v-bread-crumbs__item-link" :to="link.to" v-if="link.to">
+        {{link.label}}
+      </RouterLink>
+      <span class="v-bread-crumbs__item-last" v-else>{{link.label}}</span>
+    </span>
+  </div>
 </template>
 
 <script>
 import VArrow from "../../VArrow/ui/VArrow.vue";
 
 export default {
-  name: "VBreadCrumbs",
+  name: 'VBreadCrumbs',
   components: {VArrow},
   props: {
     links: {
       type: Array,
-      default() {
-        return ['Titles1', 'Titles2', 'Titles3', 'Titles4']
-      }
+      required: true,
     }
   },
-  methods: {
-    createLink(link) {
-      return `/${link}`
-    },
-  },
-  computed: {
-    passiveLinks() {
-      return this.links.slice(0, -1);
-    },
-    lastActiveLink() {
-      return this.links.at(-1);
-    }
-  }
 }
 </script>
 
@@ -55,6 +38,10 @@ export default {
     gap: 4px;
     align-items: center;
 
+    &:hover {
+      color: var(--color-main-hover);
+    }
+
     &:last-of-type {
       margin-right: 0;
     }
@@ -67,6 +54,10 @@ export default {
 
     .v-bread-crumbs__item-last {
       color: var(--color-main-text);
+
+      &:hover {
+        color: var(--color-main-hover);
+      }
     }
   }
 }

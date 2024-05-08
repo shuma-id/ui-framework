@@ -109,7 +109,7 @@ export default {
                 return this.options;
             }
             return this.options.filter((option) =>
-                option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
+                option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase()),
             );
         },
         isInputReadonly() {

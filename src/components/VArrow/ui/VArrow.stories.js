@@ -6,12 +6,12 @@ export default {
     tags: ["autodocs"],
     argTypes: {
         type: {
-            control: { type: 'select' },
-            options: ['active', 'passive'],
+            control: { type: "select" },
+            options: ["active", "passive"],
         },
         direction: {
-            control: { type: 'select' },
-            options: ['right', 'bottom', 'left', 'top'],
+            control: { type: "select" },
+            options: ["right", "bottom", "left", "top"],
         },
     },
 };
@@ -22,9 +22,9 @@ const Template = (args) => ({
         return { args };
     },
     args: {
-       direction: "right"
+        direction: "right",
     },
-    template: '<VArrow v-bind="args" />',
+    template: "<VArrow v-bind=\"args\" />",
 });
 
 export const ArrowActive = Template.bind({});

@@ -29,7 +29,7 @@ const Template = (args, { argTypes }) => ({
         return { args };
     },
     props: Object.keys(argTypes),
-    template: '<VDropdown v-bind="args" />',
+    template: "<VDropdown v-bind=\"args\" />",
 });
 
 export const Default = Template.bind({});

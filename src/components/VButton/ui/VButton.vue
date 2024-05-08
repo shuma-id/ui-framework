@@ -50,9 +50,11 @@ export default {
         &:hover {
             background: var(--color-main-hover);
         }
+
         &:active {
             background: var(--color-main-hover);
         }
+
         &:disabled,
         &.disabled {
             background: #f7f7f7;
@@ -67,9 +69,11 @@ export default {
         &:hover {
             background: #ebe9e8;
         }
+
         &:active {
             background: #e6e5e4;
         }
+
         &:disabled,
         &.disabled {
             background: #f7f7f7;
@@ -84,9 +88,11 @@ export default {
         &:hover {
             background: #ff1a40;
         }
+
         &:active {
             background: #ff002b;
         }
+
         &:disabled,
         &.disabled {
             background: #f7f7f7;
@@ -103,11 +109,13 @@ export default {
             color: #000;
             text-decoration: underline;
         }
+
         &:active {
             background: none;
             color: #545454;
             text-decoration: underline;
         }
+
         &:disabled,
         &.disabled {
             background: none;

@@ -15,5 +15,5 @@ export {
     VInput,
     VPlaceholder,
     VSelect,
-    VTable
+    VTable,
 };

@@ -11,15 +11,15 @@ const Template = (args) => ({
     setup() {
         return { args };
     },
-    template: '<VBreadcrumbs v-bind="args" />',
+    template: "<VBreadcrumbs v-bind=\"args\" />",
 });
 
 export const Breadcrumbs = Template.bind({});
 
 Breadcrumbs.args = {
     links: [
-        { label: 'Applications', to: '/apps' },
-        { label: 'AppName', to: `/apps/appId/incidents` },
-        { label: 'Incident' },
-    ]
+        { label: "Applications", to: "/apps" },
+        { label: "AppName", to: `/apps/appId/incidents` },
+        { label: "Incident" },
+    ],
 };

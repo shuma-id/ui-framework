@@ -23,6 +23,7 @@ export default {
     border-radius: 4px;
     box-shadow: 0px 0px 30px 0px rgba(165, 165, 165, 0.25);
 }
+
 @keyframes placeholder {
     0% {
         background-position: 0px 0;

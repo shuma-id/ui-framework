@@ -24,7 +24,7 @@ const Template = (args, { updateArgs }) => ({
     setup() {
         return { args };
     },
-    template: '<VSelect v-bind="args" @update:modelValue="updateArgs" />',
+    template: "<VSelect v-bind=\"args\" @update:modelValue=\"updateArgs\" />",
     methods: {
         updateArgs(modelValue) {
             updateArgs({ ...args, modelValue });
@@ -43,7 +43,7 @@ const TemplateDeff = (args, { updateArgs }) => ({
     setup() {
         return { args };
     },
-    template: '<VSelect v-bind="args" @update:modelValue="updateArgs" />',
+    template: "<VSelect v-bind=\"args\" @update:modelValue=\"updateArgs\" />",
     methods: {
         updateArgs(modelValue) {
             updateArgs({ ...args, modelValue });

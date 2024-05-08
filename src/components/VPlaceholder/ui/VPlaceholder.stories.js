@@ -11,11 +11,9 @@ const Template = (args) => ({
     setup() {
         return { args };
     },
-    template: '<v-placeholder v-bind="args" @update:state="args.state = $event" />',
+    template: "<v-placeholder v-bind=\"args\" @update:state=\"args.state = $event\" />",
 });
 
 export const Primary = Template.bind({});
 
-Primary.args = {
-
-};
+Primary.args = {};

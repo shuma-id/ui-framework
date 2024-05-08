@@ -57,7 +57,7 @@ export default {
 
     &.__passive {
         svg path {
-            fill: var(--color-main-grey);
+            fill: var(--color-main-gray);
         }
     }
 

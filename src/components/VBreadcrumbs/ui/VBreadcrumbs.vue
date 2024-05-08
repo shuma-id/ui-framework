@@ -9,7 +9,7 @@
             <RouterLink :to="link.to" v-if="link.to">
                 {{ link.label }}
             </RouterLink>
-            <span class="__item" v-else>{{ link.label }}</span>
+            <span class="__item-text" v-else>{{ link.label }}</span>
         </span>
     </div>
 </template>
@@ -31,7 +31,7 @@ export default {
 
 <style scoped lang="scss">
 .v-breadcrumbs {
-    color: var(--color-main-grey);
+    color: var(--color-main-gray);
     display: flex;
     gap: 4px;
 
@@ -46,7 +46,7 @@ export default {
             color: var(--color-main-hover);
         }
 
-        &:last-of-type {
+        &-text {
             margin-right: 0;
             color: var(--color-main-text);
 

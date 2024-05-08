@@ -15,7 +15,7 @@ const Template = (args, { updateArgs }) => ({
     setup() {
         return { args };
     },
-    template: '<VInput v-bind="args" @update:modelValue="updateArgs" />',
+    template: "<VInput v-bind=\"args\" @update:modelValue=\"updateArgs\" />",
     methods: {
         updateArgs(modelValue) {
             updateArgs({ ...args, modelValue });

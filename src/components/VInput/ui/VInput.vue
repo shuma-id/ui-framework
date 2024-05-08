@@ -92,9 +92,8 @@ export default {
         font-size: 16px;
         font-weight: 400;
         color: #000;
-        transition:
-            background-color 0.3s,
-            border-color 0.3s;
+        transition: background-color 0.3s,
+        border-color 0.3s;
     }
 
     .placeholder {

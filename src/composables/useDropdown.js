@@ -3,7 +3,7 @@ import { ref } from "vue";
 export function useDropdown(array, callbackFunction) {
     const selectedIndex = ref(-1);
 
-    const handleKeydown = function (e) {
+    const handleKeydown = function(e) {
         switch (e.key) {
             case "ArrowDown":
                 e.preventDefault();

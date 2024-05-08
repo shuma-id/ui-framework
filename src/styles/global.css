@@ -1,4 +1,12 @@
+@import "normalize.css";
+
 :root {
     --color-main: #000;
-    --color-main-hover: #333
+    --color-main-text: #000;
+
+    --color-secondary-text: #fff;
+
+    --color-main-hover: #333;
+
+    --color-main-gray: #A6A6A6;
 }

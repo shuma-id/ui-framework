@@ -1,7 +1,11 @@
 <template>
     <div class="v-breadcrumbs">
         <span class="__item" v-for="(link, i) in links">
-            <VArrow :type="link.to ? 'passive' : 'active'" direction="right" v-if="i !== 0"></VArrow>
+            <VArrow
+                :type="link.to ? 'passive' : 'active'"
+                direction="right"
+                v-if="i !== 0"
+            ></VArrow>
             <RouterLink :to="link.to" v-if="link.to">
                 {{ link.label }}
             </RouterLink>
@@ -37,7 +41,6 @@ export default {
         align-items: center;
         font-size: 28px;
         font-weight: 600;
-
 
         &:hover {
             color: var(--color-main-hover);

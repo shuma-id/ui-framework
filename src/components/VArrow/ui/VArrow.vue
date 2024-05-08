@@ -1,5 +1,5 @@
 <template>
-  <span :class="arrowClassName">
+  <span :class="`v-arrow __${this.type} __${this.direction}`">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_84_3976)">
         <path d="M6.48999 20.1301L8.25999 21.9001L18.16 12.0001L8.25999 2.1001L6.48999 3.8701L14.62 12.0001L6.48999 20.1301Z" fill="black"/>
@@ -26,17 +26,13 @@ export default {
       default: 'right',
     }
   },
-  computed: {
-    arrowClassName() {
-      return `v-arrow v-arrow__${this.type} v-arrow__${this.direction}`
-    }
-  }
 }
 </script>
 
 <style scoped lang="scss">
 .v-arrow {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   height: 24px;
   width: 24px;
 
@@ -44,31 +40,27 @@ export default {
       fill: var(--color-main);
     }
 
-    svg:hover path {
-      fill: var(--color-main-hover);
-    }
-
-  &__active {
+  &.__active {
     svg path {
       fill: var(--color-main);
     }
   }
 
-  &__passive {
+  &.__passive {
     svg path {
       fill: var(--color-main-grey);
     }
   }
 
-  &__bottom {
+  &.__bottom {
     transform: rotate(90deg);
   }
 
-  &__left {
+  &.__left {
     transform: rotate(180deg);
   }
 
-  &__top {
+  &.__top {
     transform: rotate(270deg);
   }
 }

@@ -1,12 +1,12 @@
 <template>
-  <div class="v-bread-crumbs">
-    <span class="v-bread-crumbs__item" v-for="(link, i) in links">
+  <div class="v-breadcrumbs">
+    <span class="v-breadcrumbs__item" v-for="(link, i) in links">
       <VArrow type="passive" direction="right" v-if="link.to && i !== 0"></VArrow>
       <VArrow type="active" direction="right" v-if="!link.to && i !== 0"></VArrow>
-      <RouterLink class="v-bread-crumbs__item-link" :to="link.to" v-if="link.to">
+      <RouterLink class="v-breadcrumbs__item-link" :to="link.to" v-if="link.to">
         {{link.label}}
       </RouterLink>
-      <span class="v-bread-crumbs__item-last" v-else>{{link.label}}</span>
+      <span class="v-breadcrumbs__item-last" v-else>{{link.label}}</span>
     </span>
   </div>
 </template>
@@ -27,9 +27,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.v-bread-crumbs {
+.v-breadcrumbs {
   color: var(--color-main-grey);
-  list-style: none;
   display: flex;
   gap: 4px;
 
@@ -46,13 +45,12 @@ export default {
       margin-right: 0;
     }
 
-    &-link, .v-bread-crumbs__item-last {
+    &-link, .v-breadcrumbs__item-last {
       font-size: 28px;
-      line-height: 1.5;
       font-weight: 600;
     }
 
-    .v-bread-crumbs__item-last {
+    .v-breadcrumbs__item-last {
       color: var(--color-main-text);
 
       &:hover {

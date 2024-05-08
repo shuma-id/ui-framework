@@ -15,7 +15,7 @@ const Template = (args, { updateArgs }) => ({
     setup() {
         return { args };
     },
-    template: "<VInput v-bind=\"args\" @update:modelValue=\"updateArgs\" />",
+    template: '<VInput v-bind="args" @update:modelValue="updateArgs" />',
     methods: {
         updateArgs(modelValue) {
             updateArgs({ ...args, modelValue });
@@ -23,7 +23,14 @@ const Template = (args, { updateArgs }) => ({
     },
 });
 
-export const Default = Template.bind({});
-Default.args = {
+export const DefaultInput = Template.bind({});
+DefaultInput.args = {
     placeholder: "Placeholder",
+    typeInput: "input",
+};
+
+export const Textarea = Template.bind({});
+Textarea.args = {
+    placeholder: "Write the message",
+    typeInput: "textarea",
 };

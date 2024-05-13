@@ -28,8 +28,9 @@
             :disabled="disabled"
             :readonly="readonly"
             @input="updateValue"
-            @focus="isFocused = true"
-            @blur="isFocused = false"
+            @focus="focus"
+            @blur="blur"
+            @mousedown="mousedown"
             class="__field __field-area"
             v-if="typeInput === 'textarea'"
         />

@@ -4,7 +4,7 @@
         :class="{
             '__with-error': error,
             __disabled: disabled,
-            __complete: isComplete || isCompleteArea,
+            __complete: isComplete,
             __focused: isFocused,
         }"
     >
@@ -23,15 +23,19 @@
         />
         <textarea
             :id="id"
-            :value="modelValueArea"
+            :value="modelValue"
+            :disabled="disabled"
+            :readonly="readonly"
+            @input="updateValue"
             @focus="isFocused = true"
             @blur="isFocused = false"
             class="__field __field-area"
             v-if="typeInput === 'textarea'"
         />
-        <label for="VInput" class="placeholder">{{ placeholder }}</label>
-        <img class="icon error-icon" src="./icon-errors.svg" alt="Error icon image" />
         <img class="icon done-icon" src="./icon-done.svg" alt="Done icon image" />
+        <img class="icon error-icon" src="./icon-errors.svg" alt="Error icon image" />
+        <label for="VInput" class="placeholder">{{ placeholder }}</label>
+        <p class="error-text" v-if="error">{{ errorText }}</p>
     </div>
 </template>
 
@@ -48,6 +52,7 @@ export default {
         error: { type: Boolean, default: false },
         readonly: { type: Boolean, default: false },
         typeInput: { type: String, required: true },
+        errorText: { type: String, default: "" },
     },
     data() {
         return {
@@ -63,9 +68,6 @@ export default {
     computed: {
         isComplete() {
             return this.modelValue.trim().length > 0;
-        },
-        isCompleteArea() {
-            return this.modelValueArea.trim().length > 0;
         },
     },
 };
@@ -85,7 +87,7 @@ export default {
 
     .__field {
         width: 100%;
-        min-height: 64px;
+        height: 64px;
         margin-right: -36px;
         padding: 8px 18px;
         background: var(--color-input-bg);
@@ -93,8 +95,9 @@ export default {
         border-radius: 12px;
         outline: none;
         font-size: 16px;
+        line-height: 1.5;
         font-weight: 400;
-        color: #000;
+        color: var(--color-main);
         transition:
             background-color 0.3s,
             border-color 0.3s;
@@ -104,6 +107,10 @@ export default {
         height: 84px;
         padding: 12px 18px 18px;
         background: var(--color-textarea-bg);
+
+        & + .done-icon {
+            top: 12px;
+        }
     }
 
     .placeholder {
@@ -125,11 +132,10 @@ export default {
     }
 
     .icon {
-        position: relative;
-        top: 0;
-        left: 0;
+        position: absolute;
+        right: 18px;
         opacity: 0;
-        transition: 0.3s;
+        transition: all 0.3s;
         pointer-events: none;
     }
 }
@@ -142,7 +148,7 @@ export default {
     }
 
     .__field-area {
-        padding-top: 44px;
+        padding-top: 36px;
     }
 
     .placeholder {
@@ -150,17 +156,25 @@ export default {
         font-size: 12px;
         color: var(--color-main-gray);
     }
+
+    .error-text {
+        transform: translate3D(-6px, -24px, 0);
+    }
 }
 
 .v-input.__complete,
 .v-input:has(.__field:autofill),
 .v-input:has(.__field:-webkit-autofill) {
     .__field:not(.__focused) {
-        padding: 20px 49px 12px 18px;
+        padding: 28px 42px 12px 18px;
 
         &:hover {
             background: #f2f2f2;
         }
+    }
+
+    .__field-area:not(.__focused) {
+        padding: 36px 42px 18px 18px;
     }
 
     .done-icon {
@@ -175,18 +189,44 @@ export default {
 }
 
 .__with-error.v-input {
+    background-color: var(--color-error-bg);
+
     .__field {
-        background: #fff0f2 !important;
+        background: var(--color-error-bg) !important;
         color: #808080;
         border: 1px solid transparent;
+
+        &:hover {
+            color: var(--color-main);
+        }
     }
 
     .error-icon {
         opacity: 1;
     }
 
+    .done-icon {
+        opacity: 0;
+    }
+
     .placeholder {
-        color: #ff002b;
+        color: var(--color-error);
+        transform: translate3D(0, 6px, 0);
+    }
+
+    .error-text {
+        font-size: 12px;
+        line-height: 16px;
+        position: absolute;
+        bottom: -22px;
+        left: 24px;
+        color: var(--color-error);
+    }
+}
+
+.__with-error.v-input.__focused {
+    .__field {
+        padding-top: 16px;
     }
 }
 

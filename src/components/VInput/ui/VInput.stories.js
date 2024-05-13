@@ -1,7 +1,7 @@
 import VInput from "./VInput.vue";
 
 export default {
-    title: "VInput",
+    title: "UI/VInput",
     component: VInput,
     tags: ["autodocs"],
     argTypes: {

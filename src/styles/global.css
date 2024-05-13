@@ -14,4 +14,7 @@
     --color-input-bg: #F7F7F7;
 
     --color-textarea-bg: #FAFAFA;
+
+    --color-error: #FF002B;
+    --color-error-bg: #fff0f2;
 }

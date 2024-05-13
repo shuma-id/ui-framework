@@ -91,16 +91,14 @@ export default {
         margin-right: -36px;
         padding: 8px 18px;
         background: var(--color-input-bg);
-        border: 1px solid transparent;
+        border: none;
         border-radius: 12px;
         outline: none;
         font-size: 16px;
         line-height: 1.5;
         font-weight: 400;
         color: var(--color-main);
-        transition:
-            background-color 0.3s,
-            border-color 0.3s;
+        transition: background-color 0.3s;
     }
 
     .__field-area {
@@ -143,7 +141,6 @@ export default {
 .v-input.__focused {
     .__field {
         background: transparent !important;
-        border: 1px solid var(--main-color);
         padding-top: 28px;
     }
 
@@ -194,7 +191,6 @@ export default {
     .__field {
         background: var(--color-error-bg) !important;
         color: #808080;
-        border: 1px solid transparent;
 
         &:hover {
             color: var(--color-main);

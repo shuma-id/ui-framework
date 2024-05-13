@@ -16,8 +16,9 @@
             :disabled="disabled"
             :readonly="readonly"
             @input="updateValue"
-            @focus="isFocused = true"
-            @blur="isFocused = false"
+            @focus="focus"
+            @blur="blur"
+            @mousedown="mousedown"
             class="__field"
             v-if="typeInput === 'input'"
         />
@@ -46,7 +47,6 @@ export default {
         id: { type: String, required: true },
         type: { type: String, default: "text" },
         modelValue: { type: String, default: "" },
-        modelValueArea: { type: String, default: "" },
         placeholder: { type: String, default: "" },
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
@@ -63,6 +63,17 @@ export default {
         updateValue($event) {
             this.$emit("update:modelValue", $event.target.value);
             this.$emit("change", this.modelValue);
+        },
+        focus() {
+            this.isFocused = true;
+            this.$emit("focus");
+        },
+        blur() {
+            this.isFocused = false;
+            this.$emit("blur");
+        },
+        mousedown() {
+            this.focus();
         },
     },
     computed: {
@@ -153,10 +164,6 @@ export default {
         font-size: 12px;
         color: var(--color-main-gray);
     }
-
-    .error-text {
-        transform: translate3D(-6px, -24px, 0);
-    }
 }
 
 .v-input.__complete,
@@ -207,7 +214,6 @@ export default {
 
     .placeholder {
         color: var(--color-error);
-        transform: translate3D(0, 6px, 0);
     }
 
     .error-text {
@@ -217,12 +223,6 @@ export default {
         bottom: -22px;
         left: 24px;
         color: var(--color-error);
-    }
-}
-
-.__with-error.v-input.__focused {
-    .__field {
-        padding-top: 16px;
     }
 }
 

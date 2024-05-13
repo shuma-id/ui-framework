@@ -5,6 +5,10 @@ export default {
     component: VInput,
     tags: ["autodocs"],
     argTypes: {
+        typeInput: {
+            control: { type: "select" },
+            options: ["input", "textarea"],
+        },
         disabled: { control: "boolean" },
         error: { control: "boolean" },
     },

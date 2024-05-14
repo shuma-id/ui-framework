@@ -32,7 +32,6 @@ export default {
     data() {
         return {
             text: "Enter short code from Email",
-            initialMask: new Array(6).fill("—"),
             mask: new Array(6).fill("—"),
             otpCode: "",
             disabled: false,
@@ -48,7 +47,7 @@ export default {
         otpCode() {
             this.otpError = false;
             this.otpErrorText = "";
-            this.mask = this.initialMask;
+            this.mask = new Array(6).fill("—");
             const arr = Array.from(this.otpCode);
             for (let i = 0; i < arr.length; i++) {
                 this.mask[i] = "";

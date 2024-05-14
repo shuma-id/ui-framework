@@ -20,7 +20,7 @@
             @blur="blur"
             @mousedown="mousedown"
             class="__field"
-            v-if="typeInput === 'input'"
+            v-if="!textArea"
         />
         <textarea
             :id="id"
@@ -32,7 +32,7 @@
             @blur="blur"
             @mousedown="mousedown"
             class="__field __field-area"
-            v-if="typeInput === 'textarea'"
+            v-if="textArea"
         />
         <img class="icon done-icon" src="./icon-done.svg" alt="Done icon image" />
         <img class="icon error-icon" src="./icon-errors.svg" alt="Error icon image" />
@@ -52,12 +52,13 @@ export default {
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
         readonly: { type: Boolean, default: false },
-        typeInput: { type: String, required: true },
+        textArea: { type: Boolean, default: true },
         errorText: { type: String, default: "" },
+        makeFocused: { type: Boolean, default: false },
     },
     data() {
         return {
-            isFocused: false,
+            isFocused: this.makeFocused,
         };
     },
     methods: {
@@ -81,6 +82,11 @@ export default {
         isComplete() {
             return this.modelValue.trim().length > 0;
         },
+    },
+    mounted() {
+        if (this.makeFocused) {
+            focus();
+        }
     },
 };
 </script>

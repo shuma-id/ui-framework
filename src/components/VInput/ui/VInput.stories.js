@@ -5,10 +5,7 @@ export default {
     component: VInput,
     tags: ["autodocs"],
     argTypes: {
-        typeInput: {
-            control: { type: "select" },
-            options: ["input", "textarea"],
-        },
+        textArea: { control: "boolean" },
         disabled: { control: "boolean" },
         error: { control: "boolean" },
     },
@@ -30,11 +27,11 @@ const Template = (args, { updateArgs }) => ({
 export const DefaultInput = Template.bind({});
 DefaultInput.args = {
     placeholder: "Placeholder",
-    typeInput: "input",
+    textArea: false,
 };
 
 export const Textarea = Template.bind({});
 Textarea.args = {
     placeholder: "Write the message",
-    typeInput: "textarea",
+    textArea: true,
 };

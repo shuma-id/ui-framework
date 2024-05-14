@@ -20,6 +20,7 @@
             @blur="blur"
             @mousedown="mousedown"
             class="__field"
+            :maxlength="maxLength"
             v-if="!textArea"
         />
         <textarea
@@ -55,6 +56,7 @@ export default {
         textArea: { type: Boolean, default: false },
         errorText: { type: String, default: "" },
         makeFocused: { type: Boolean, default: false },
+        maxLength: { type: Number },
     },
     data() {
         return {
@@ -85,7 +87,7 @@ export default {
     },
     mounted() {
         if (this.makeFocused) {
-            focus();
+            this.focus();
         }
     },
 };

@@ -52,7 +52,7 @@ export default {
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
         readonly: { type: Boolean, default: false },
-        textArea: { type: Boolean, default: true },
+        textArea: { type: Boolean, default: false },
         errorText: { type: String, default: "" },
         makeFocused: { type: Boolean, default: false },
     },

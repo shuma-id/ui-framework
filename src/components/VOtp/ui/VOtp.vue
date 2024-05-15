@@ -1,6 +1,6 @@
 <template>
     <div class="otp">
-        <div class="otp--mask">
+        <div class="otp--mask" v-if="isMaskSown">
             <div class="__item" v-for="item in mask">{{ item }}</div>
         </div>
         <VInput
@@ -14,6 +14,8 @@
             :max-length="maxLength"
             :error="otpError"
             :error-text="otpErrorText"
+            @focus="isFocused()"
+            @blur="isBlurred()"
         ></VInput>
         <p class="otp__prompt">
             <a class="otp__link" href="#">Request again in 30 seconds</a> or
@@ -24,7 +26,6 @@
 
 <script>
 import VInput from "../../VInput/ui/VInput.vue";
-import { PATTERNS } from "../../../utils/constants.js";
 export default {
     name: "VOtp",
     components: { VInput },
@@ -41,32 +42,24 @@ export default {
             modelValue: "",
             otpError: false,
             otpErrorText: "",
+            isMaskSown: true,
         };
     },
     watch: {
         otpCode() {
-            this.otpError = false;
-            this.otpErrorText = "";
             this.mask = new Array(6).fill("—");
             const arr = Array.from(this.otpCode);
             for (let i = 0; i < arr.length; i++) {
                 this.mask[i] = "";
             }
-
-            if (this.otpCode.length === this.maxLength) {
-                if (this.isCodeValid) {
-                    this.otpError = false;
-                    this.otpErrorText = "";
-                } else {
-                    this.otpError = true;
-                    this.otpErrorText = "Short code can only contain numbers";
-                }
-            }
         },
     },
-    computed: {
-        isCodeValid() {
-            return PATTERNS.CODE.test(this.otpCode);
+    methods: {
+        isFocused() {
+            this.isMaskSown = true;
+        },
+        isBlurred() {
+            this.isMaskSown = false;
         },
     },
 };
@@ -82,7 +75,7 @@ export default {
     &--mask {
         font-family: "SF Mono", monospace;
         position: absolute;
-        top: 29px;
+        top: 30px;
         left: 18px;
         z-index: 1;
         height: 2px;

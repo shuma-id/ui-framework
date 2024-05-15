@@ -82,7 +82,7 @@ export default {
     },
     computed: {
         isComplete() {
-            return this.modelValue.trim().length > 0;
+            return this.modelValue.length > 0;
         },
     },
     mounted() {

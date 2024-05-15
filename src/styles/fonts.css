@@ -2,7 +2,7 @@
     font-family: 'SF Mono';
     font-style:  normal;
     font-weight: 400;
-    src: url("fonts/SFMono-Regular.otf") format("opentype");
+    src: url("../assets/fonts/SFMono-Regular.otf") format("opentype");
     font-display: swap;
 }
 

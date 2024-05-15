@@ -49,7 +49,6 @@ export default {
         otpCode() {
             this.mask = new Array(6).fill("—");
             const arr = Array.from(this.otpCode);
-            console.log(arr);
             for (let i = 0; i < arr.length; i++) {
                 this.mask[i] = "";
             }

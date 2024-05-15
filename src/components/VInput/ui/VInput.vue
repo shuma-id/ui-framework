@@ -85,11 +85,6 @@ export default {
             return this.modelValue.length > 0;
         },
     },
-    mounted() {
-        if (this.makeFocused) {
-            this.focus();
-        }
-    },
 };
 </script>
 

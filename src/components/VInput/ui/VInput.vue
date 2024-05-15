@@ -19,9 +19,26 @@
             @focus="focus"
             @blur="blur"
             @mousedown="mousedown"
+            class="__field"
+            :maxlength="maxLength"
+            v-if="!textarea"
         />
+        <textarea
+            :id="id"
+            :value="modelValue"
+            :disabled="disabled"
+            :readonly="readonly"
+            @input="updateValue"
+            @focus="focus"
+            @blur="blur"
+            @mousedown="mousedown"
+            class="__field __field-area"
+            v-if="textarea"
+        />
+        <img class="icon done-icon" src="./icon-done.svg" alt="Done icon image" />
+        <img class="icon error-icon" src="./icon-errors.svg" alt="Error icon image" />
         <label for="VInput" class="placeholder">{{ placeholder }}</label>
-        <img class="error-icon" src="./icon-errors.svg" alt="Error icon image" />
+        <p class="error-text" v-if="error">{{ errorText }}</p>
     </div>
 </template>
 
@@ -36,10 +53,14 @@ export default {
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
         readonly: { type: Boolean, default: false },
+        textarea: { type: Boolean, default: false },
+        errorText: { type: String, default: "" },
+        makeFocused: { type: Boolean, default: false },
+        maxLength: { type: Number },
     },
     data() {
         return {
-            isFocused: false,
+            isFocused: this.makeFocused,
         };
     },
     methods: {
@@ -61,8 +82,13 @@ export default {
     },
     computed: {
         isComplete() {
-            return this.modelValue.trim().length > 0;
+            return this.modelValue.length > 0;
         },
+    },
+    mounted() {
+        if (this.makeFocused) {
+            this.focus();
+        }
     },
 };
 </script>
@@ -71,85 +97,101 @@ export default {
 .v-input {
     width: 100%;
     position: relative;
-
     display: flex;
+    gap: 6px;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    background: var(--color-input-bg);
+    border-radius: 12px;
 
-    input {
+    .__field {
         width: 100%;
         height: 64px;
         margin-right: -36px;
-
-        box-sizing: border-box;
-        padding: 20px 49px 20px 18px;
-        background: #f7f7f7;
-        border: 1px solid transparent;
+        padding: 8px 18px 12px;
+        background: var(--color-input-bg);
+        border: none;
         border-radius: 12px;
         outline: none;
-
         font-size: 16px;
+        line-height: 1.5;
         font-weight: 400;
-        color: #000;
-        transition: background-color 0.3s,
-        border-color 0.3s;
+        color: var(--color-main);
+        transition: background-color 0.3s;
+    }
+
+    .__field-area {
+        height: 84px;
+        padding: 12px 18px 18px;
+        background: var(--color-textarea-bg);
+
+        & + .done-icon {
+            top: 12px;
+        }
     }
 
     .placeholder {
         position: absolute;
         top: 0;
         left: 18px;
-
         font-size: 16px;
         font-weight: 400;
         color: #808080;
         pointer-events: none;
-
         transform: translate3D(0, 24px, 0);
         transition: 0.3s;
     }
 
-    .error-icon {
-        position: relative;
-        top: 0;
-        left: 0;
+    &:hover {
+        .placeholder {
+            color: var(--color-main-text);
+        }
+    }
+
+    .icon {
+        position: absolute;
+        right: 18px;
         opacity: 0;
-        transition: 0.3s;
+        transition: all 0.3s;
         pointer-events: none;
     }
 }
 
-.v-input:hover {
-    input {
-        color: #000;
-        background: #f7f7f7;
-    }
-}
-
-.__focused.v-input {
-    input {
+.v-input.__focused {
+    .__field {
         background: transparent !important;
-        border: 1px solid var(--main-color);
-        padding: 20px 49px 12px 18px;
+        padding-top: 28px;
+    }
+
+    .__field-area {
+        padding-top: 36px;
     }
 
     .placeholder {
         transform: translate3D(0, 14px, 0);
         font-size: 12px;
-        color: #a6a6a6;
+        color: var(--color-main-gray);
     }
 }
 
 .v-input.__complete,
-.v-input:has(input:autofill),
-.v-input:has(input:-webkit-autofill) {
-    input:not(.__focused) {
-        padding: 20px 49px 12px 18px;
+.v-input:has(.__field:autofill),
+.v-input:has(.__field:-webkit-autofill) {
+    .__field:not(.__focused) {
+        padding: 28px 42px 12px 18px;
 
         &:hover {
             background: #f2f2f2;
         }
+    }
+
+    .__field-area:not(.__focused) {
+        padding: 36px 42px 18px 18px;
+    }
+
+    .done-icon {
+        opacity: 1;
     }
 
     .placeholder {
@@ -160,23 +202,41 @@ export default {
 }
 
 .__with-error.v-input {
-    input {
-        background: #fff0f2 !important;
+    background-color: var(--color-error-bg);
+
+    .__field {
+        background: var(--color-error-bg) !important;
         color: #808080;
-        border: 1px solid transparent;
+
+        &:hover {
+            color: var(--color-main);
+        }
     }
 
     .error-icon {
         opacity: 1;
     }
 
+    .done-icon {
+        opacity: 0;
+    }
+
     .placeholder {
-        color: #ff002b;
+        color: var(--color-error);
+    }
+
+    .error-text {
+        font-size: 12px;
+        line-height: 16px;
+        position: absolute;
+        bottom: -22px;
+        left: 24px;
+        color: var(--color-error);
     }
 }
 
 .__disabled.v-input {
-    input {
+    .__field {
         color: #808080;
     }
 

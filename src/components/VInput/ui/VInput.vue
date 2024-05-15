@@ -21,7 +21,7 @@
             @mousedown="mousedown"
             class="__field"
             :maxlength="maxLength"
-            v-if="!textArea"
+            v-if="!textarea"
         />
         <textarea
             :id="id"
@@ -33,7 +33,7 @@
             @blur="blur"
             @mousedown="mousedown"
             class="__field __field-area"
-            v-if="textArea"
+            v-if="textarea"
         />
         <img class="icon done-icon" src="./icon-done.svg" alt="Done icon image" />
         <img class="icon error-icon" src="./icon-errors.svg" alt="Error icon image" />
@@ -53,7 +53,7 @@ export default {
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
         readonly: { type: Boolean, default: false },
-        textArea: { type: Boolean, default: false },
+        textarea: { type: Boolean, default: false },
         errorText: { type: String, default: "" },
         makeFocused: { type: Boolean, default: false },
         maxLength: { type: Number },
@@ -109,7 +109,7 @@ export default {
         width: 100%;
         height: 64px;
         margin-right: -36px;
-        padding: 8px 18px;
+        padding: 8px 18px 12px;
         background: var(--color-input-bg);
         border: none;
         border-radius: 12px;

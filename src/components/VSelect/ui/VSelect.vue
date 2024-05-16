@@ -11,6 +11,7 @@
                 :disabled="disabled"
                 :error="error"
                 :readonly="isInputReadonly"
+                :id="modelValue"
             />
             <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
         </div>
@@ -50,7 +51,6 @@ export default {
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
         options: Array,
-
         filterable: { type: Boolean, default: false },
     },
     data() {
@@ -109,7 +109,7 @@ export default {
                 return this.options;
             }
             return this.options.filter((option) =>
-                option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase()),
+                option.label.toLowerCase().startsWith(this.filteredQuery.toLowerCase())
             );
         },
         isInputReadonly() {
@@ -130,6 +130,7 @@ export default {
 <style scoped lang="scss">
 .v-select {
     width: 100%;
+    position: relative;
 
     .input__wrapper {
         position: relative;
@@ -150,10 +151,11 @@ export default {
         margin-top: 6px;
         display: flex;
         flex-direction: column;
-
+        position: absolute;
+        width: 100%;
         background: #fff;
         border-radius: 12px;
-        box-shadow: 0px 3px 15px rgba(76.5, 76.5, 76.5, 0.25);
+        box-shadow: 0 3px 15px rgba(76.5, 76.5, 76.5, 0.25);
         box-sizing: border-box;
         padding: 24px 12px;
 
@@ -168,6 +170,10 @@ export default {
                 background: #f7f7f7;
             }
         }
+    }
+
+    &:deep .icon {
+        display: none;
     }
 }
 

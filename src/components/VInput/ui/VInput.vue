@@ -7,7 +7,9 @@
             __complete: isComplete,
             __focused: isFocused,
         }"
+        :style="{ '--space-prefix': spaceForPrefix }"
     >
+        <span class="__prefix" v-if="prefix && (isFocused || isComplete)">{{ prefix }}</span>
         <input
             :type="type"
             :id="id"
@@ -57,10 +59,11 @@ export default {
         errorText: { type: String, default: "" },
         makeFocused: { type: Boolean, default: false },
         maxLength: { type: Number },
+        prefix: { type: String, default: "" },
     },
     data() {
         return {
-            isFocused: this.makeFocused,
+            isFocused: this.makeFocused || this.prefix,
         };
     },
     methods: {
@@ -83,6 +86,10 @@ export default {
     computed: {
         isComplete() {
             return this.modelValue.length > 0;
+        },
+        spaceForPrefix() {
+            const space = this.prefix.length * 10 + 18;
+            return `${space}px`;
         },
     },
 };
@@ -144,6 +151,13 @@ export default {
         }
     }
 
+    .__prefix {
+        position: absolute;
+        color: #a6a6a6;
+        left: 18px;
+        top: 31.5px;
+    }
+
     .icon {
         position: absolute;
         right: 18px;
@@ -179,6 +193,10 @@ export default {
         &:hover {
             background: #f2f2f2;
         }
+    }
+
+    .__prefix + .__field:not(.__focused) {
+        padding-left: var(--space-prefix);
     }
 
     .__field-area:not(.__focused) {
@@ -238,5 +256,9 @@ export default {
     .placeholder {
         color: #a6a6a6;
     }
+}
+
+.__prefix + .__field {
+    padding-left: var(--space-prefix);
 }
 </style>

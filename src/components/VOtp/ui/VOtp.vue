@@ -31,18 +31,17 @@ export default {
     components: { VInput },
     props: {
         id: { type: String, required: true },
+        otpError: { type: Boolean, default: false },
+        otpErrorText: { type: String, default: "" },
+        disabled: { type: Boolean, default: false },
     },
     data() {
         return {
             text: "Enter short code from Email",
             mask: new Array(6).fill("—"),
             otpCode: "",
-            disabled: false,
-            focused: true,
             maxLength: 6,
             modelValue: "",
-            otpError: false,
-            otpErrorText: "",
             isMaskShown: true,
         };
     },

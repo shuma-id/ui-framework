@@ -66,7 +66,7 @@ export default {
     },
     data() {
         return {
-            isFocused: this.makeFocused || this.prefix,
+            isFocused: false,
         };
     },
     methods: {
@@ -86,9 +86,15 @@ export default {
             this.focus();
         },
     },
+    mounted() {
+        this.isFocused = this.initialFocusState;
+    },
     computed: {
         isComplete() {
             return this.modelValue.length > 0;
+        },
+        initialFocusState() {
+            return this.makeFocused || this.prefix;
         },
     },
 };

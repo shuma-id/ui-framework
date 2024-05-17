@@ -11,7 +11,7 @@
                 :disabled="disabled"
                 :error="error"
                 :readonly="isInputReadonly"
-                :id="modelValue"
+                :id="id"
             />
             <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
         </div>
@@ -52,6 +52,7 @@ export default {
         error: { type: Boolean, default: false },
         options: Array,
         filterable: { type: Boolean, default: false },
+        id: { type: String, required: true },
     },
     data() {
         return {

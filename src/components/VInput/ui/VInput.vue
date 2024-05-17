@@ -7,24 +7,27 @@
             __complete: isComplete,
             __focused: isFocused,
         }"
-        :style="{ '--space-prefix': spaceForPrefix }"
     >
-        <span class="__prefix" v-if="prefix && (isFocused || isComplete)">{{ prefix }}</span>
-        <input
-            :type="type"
-            :id="id"
-            ref="input"
-            :value="modelValue"
-            :disabled="disabled"
-            :readonly="readonly"
-            @input="updateValue"
-            @focus="focus"
-            @blur="blur"
-            @mousedown="mousedown"
-            class="__field"
-            :maxlength="maxLength"
-            v-if="!textarea"
-        />
+        <div class="__container">
+            <span class="__prefix" v-if="prefix && (isFocused || isComplete)">
+                {{ prefix }}
+            </span>
+            <input
+                :type="type"
+                :id="id"
+                ref="input"
+                :value="modelValue"
+                :disabled="disabled"
+                :readonly="readonly"
+                @input="updateValue"
+                @focus="focus"
+                @blur="blur"
+                @mousedown="mousedown"
+                class="__field"
+                :maxlength="maxLength"
+                v-if="!textarea"
+            />
+        </div>
         <textarea
             :id="id"
             :value="modelValue"
@@ -87,10 +90,6 @@ export default {
         isComplete() {
             return this.modelValue.length > 0;
         },
-        spaceForPrefix() {
-            const space = this.prefix.length * 10 + 18;
-            return `${space}px`;
-        },
     },
 };
 </script>
@@ -151,11 +150,17 @@ export default {
         }
     }
 
-    .__prefix {
-        position: absolute;
+    .__container {
         color: #a6a6a6;
-        left: 18px;
-        top: 31.5px;
+        display: flex;
+        gap: 4px;
+        width: 100%;
+
+        span {
+            padding: 28px 0 12px 18px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
     }
 
     .icon {
@@ -171,6 +176,11 @@ export default {
     .__field {
         background: transparent !important;
         padding-top: 28px;
+    }
+
+    .__prefix + .__field {
+        padding-left: 0;
+        margin-right: 0;
     }
 
     .__field-area {
@@ -196,7 +206,8 @@ export default {
     }
 
     .__prefix + .__field:not(.__focused) {
-        padding-left: var(--space-prefix);
+        padding-left: 0;
+        margin-right: 0;
     }
 
     .__field-area:not(.__focused) {
@@ -256,9 +267,5 @@ export default {
     .placeholder {
         color: #a6a6a6;
     }
-}
-
-.__prefix + .__field {
-    padding-left: var(--space-prefix);
 }
 </style>

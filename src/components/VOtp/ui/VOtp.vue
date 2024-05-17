@@ -1,6 +1,6 @@
 <template>
     <div class="otp">
-        <div class="otp--mask" v-if="isMaskSown">
+        <div class="otp--mask" v-if="isMaskShown">
             <div class="__item" v-for="item in mask">{{ item }}</div>
         </div>
         <VInput
@@ -10,12 +10,12 @@
             :disabled="disabled"
             :placeholder="text"
             @update:modelValue="otpCode = $event"
-            :make-focused="makeFocused"
             :max-length="maxLength"
             :error="otpError"
             :error-text="otpErrorText"
             @focus="isFocused()"
             @blur="isBlurred()"
+            ref="input"
         ></VInput>
         <p class="otp__prompt">
             <a class="otp__link" href="#">Request again in 30 seconds</a> or
@@ -29,20 +29,20 @@ import VInput from "../../VInput/ui/VInput.vue";
 export default {
     name: "VOtp",
     components: { VInput },
-    props: {},
+    props: {
+        id: { type: String, required: true },
+        otpError: { type: Boolean, default: false },
+        otpErrorText: { type: String, default: "" },
+        disabled: { type: Boolean, default: false },
+    },
     data() {
         return {
             text: "Enter short code from Email",
             mask: new Array(6).fill("—"),
             otpCode: "",
-            disabled: false,
-            focused: true,
-            makeFocused: true,
             maxLength: 6,
             modelValue: "",
-            otpError: false,
-            otpErrorText: "",
-            isMaskSown: true,
+            isMaskShown: true,
         };
     },
     watch: {
@@ -52,17 +52,24 @@ export default {
             for (let i = 0; i < arr.length; i++) {
                 this.mask[i] = "";
             }
+            this.$emit("update:otpCode", this.otpCode);
         },
     },
     methods: {
         isFocused() {
-            this.isMaskSown = true;
+            this.isMaskShown = true;
         },
         isBlurred() {
             if (this.otpCode.length === 0) {
-                this.isMaskSown = false;
+                this.isMaskShown = false;
             }
         },
+        focusInput() {
+            this.$refs.input.focus();
+        },
+    },
+    mounted() {
+        this.focusInput();
     },
 };
 </script>

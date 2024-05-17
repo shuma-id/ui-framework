@@ -8,6 +8,9 @@
             __focused: isFocused,
         }"
     >
+        <span class="__prefix" v-if="prefix && (isFocused || isComplete)">
+            {{ prefix }}
+        </span>
         <input
             :type="type"
             :id="id"
@@ -55,12 +58,12 @@ export default {
         readonly: { type: Boolean, default: false },
         textarea: { type: Boolean, default: false },
         errorText: { type: String, default: "" },
-        makeFocused: { type: Boolean, default: false },
         maxLength: { type: Number },
+        prefix: { type: String, default: "" },
     },
     data() {
         return {
-            isFocused: this.makeFocused,
+            isFocused: false,
         };
     },
     methods: {
@@ -80,9 +83,15 @@ export default {
             this.focus();
         },
     },
+    mounted() {
+        this.isFocused = this.initialFocusState;
+    },
     computed: {
         isComplete() {
             return this.modelValue.length > 0;
+        },
+        initialFocusState() {
+            return this.prefix;
         },
     },
 };
@@ -95,7 +104,6 @@ export default {
     display: flex;
     gap: 6px;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
     background: var(--color-input-bg);
     border-radius: 12px;
@@ -144,6 +152,13 @@ export default {
         }
     }
 
+    .__prefix {
+        color: #a6a6a6;
+        padding: 28px 0 12px 18px;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
     .icon {
         position: absolute;
         right: 18px;
@@ -157,6 +172,11 @@ export default {
     .__field {
         background: transparent !important;
         padding-top: 28px;
+    }
+
+    .__prefix + .__field {
+        padding-left: 0;
+        margin-right: 0;
     }
 
     .__field-area {
@@ -179,6 +199,11 @@ export default {
         &:hover {
             background: #f2f2f2;
         }
+    }
+
+    .__prefix + .__field:not(.__focused) {
+        padding-left: 0;
+        margin-right: 0;
     }
 
     .__field-area:not(.__focused) {

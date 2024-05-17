@@ -8,26 +8,24 @@
             __focused: isFocused,
         }"
     >
-        <div class="__container">
-            <span class="__prefix" v-if="prefix && (isFocused || isComplete)">
-                {{ prefix }}
-            </span>
-            <input
-                :type="type"
-                :id="id"
-                ref="input"
-                :value="modelValue"
-                :disabled="disabled"
-                :readonly="readonly"
-                @input="updateValue"
-                @focus="focus"
-                @blur="blur"
-                @mousedown="mousedown"
-                class="__field"
-                :maxlength="maxLength"
-                v-if="!textarea"
-            />
-        </div>
+        <span class="__prefix" v-if="prefix && (isFocused || isComplete)">
+            {{ prefix }}
+        </span>
+        <input
+            :type="type"
+            :id="id"
+            ref="input"
+            :value="modelValue"
+            :disabled="disabled"
+            :readonly="readonly"
+            @input="updateValue"
+            @focus="focus"
+            @blur="blur"
+            @mousedown="mousedown"
+            class="__field"
+            :maxlength="maxLength"
+            v-if="!textarea"
+        />
         <textarea
             :id="id"
             :value="modelValue"
@@ -60,7 +58,6 @@ export default {
         readonly: { type: Boolean, default: false },
         textarea: { type: Boolean, default: false },
         errorText: { type: String, default: "" },
-        makeFocused: { type: Boolean, default: false },
         maxLength: { type: Number },
         prefix: { type: String, default: "" },
     },
@@ -94,7 +91,7 @@ export default {
             return this.modelValue.length > 0;
         },
         initialFocusState() {
-            return this.makeFocused || this.prefix;
+            return this.prefix;
         },
     },
 };
@@ -107,7 +104,6 @@ export default {
     display: flex;
     gap: 6px;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
     background: var(--color-input-bg);
     border-radius: 12px;
@@ -156,17 +152,11 @@ export default {
         }
     }
 
-    .__container {
+    .__prefix {
         color: #a6a6a6;
-        display: flex;
-        gap: 4px;
-        width: 100%;
-
-        span {
-            padding: 28px 0 12px 18px;
-            font-size: 16px;
-            line-height: 1.5;
-        }
+        padding: 28px 0 12px 18px;
+        font-size: 16px;
+        line-height: 1.5;
     }
 
     .icon {

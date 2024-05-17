@@ -10,7 +10,6 @@
             :disabled="disabled"
             :placeholder="text"
             @update:modelValue="otpCode = $event"
-            :make-focused="makeFocused"
             :max-length="maxLength"
             :error="otpError"
             :error-text="otpErrorText"
@@ -40,7 +39,6 @@ export default {
             otpCode: "",
             disabled: false,
             focused: true,
-            makeFocused: true,
             maxLength: 6,
             modelValue: "",
             otpError: false,

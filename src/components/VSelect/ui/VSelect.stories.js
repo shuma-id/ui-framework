@@ -17,6 +17,8 @@ const currencyOptions = [
     { value: "usd", label: "US Dollar" },
     { value: "idr", label: "Indonesian Rupiah" },
     { value: "eur", label: "Euro" },
+    { value: "cny", label: "CNY" },
+    { value: "cny", label: "CNY" },
 ];
 
 const Template = (args, { updateArgs }) => ({
@@ -24,7 +26,7 @@ const Template = (args, { updateArgs }) => ({
     setup() {
         return { args };
     },
-    template: "<VSelect v-bind=\"args\" @update:modelValue=\"updateArgs\" />",
+    template: '<VSelect v-bind="args" @update:modelValue="updateArgs" />',
     methods: {
         updateArgs(modelValue) {
             updateArgs({ ...args, modelValue });
@@ -43,7 +45,7 @@ const TemplateDeff = (args, { updateArgs }) => ({
     setup() {
         return { args };
     },
-    template: "<VSelect v-bind=\"args\" @update:modelValue=\"updateArgs\" />",
+    template: '<VSelect v-bind="args" @update:modelValue="updateArgs" />',
     methods: {
         updateArgs(modelValue) {
             updateArgs({ ...args, modelValue });

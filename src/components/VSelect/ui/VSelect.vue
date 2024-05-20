@@ -133,6 +133,21 @@ export default {
     width: 100%;
     position: relative;
 
+    //Custom scrollbar
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: #e5e5e5;
+        background-clip: padding-box;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #f7f7f7;
+    }
+
     .input__wrapper {
         position: relative;
         display: flex;
@@ -159,6 +174,10 @@ export default {
         box-shadow: 0 3px 15px rgba(76.5, 76.5, 76.5, 0.25);
         box-sizing: border-box;
         padding: 24px 12px;
+        z-index: 10;
+        max-height: 200px;
+        overflow-x: hidden;
+        overflow-y: scroll;
 
         .row {
             box-sizing: border-box;

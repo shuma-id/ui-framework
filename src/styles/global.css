@@ -4,10 +4,13 @@
 :root {
     --color-main: #000;
     --color-main-text: #000;
-
-    --color-secondary-text: #fff;
-
     --color-main-hover: #333;
+
+    --color-button-main: #000;
+    --color-button-text: #fff;
+    --color-button-hover: #333;
+    --color-button-disabled: #f7f7f7;
+    --color-button-text-disabled: #c4c4c4;
 
     --color-main-gray: #A6A6A6;
 

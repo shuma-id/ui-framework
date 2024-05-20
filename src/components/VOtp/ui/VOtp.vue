@@ -18,8 +18,11 @@
             ref="input"
         ></VInput>
         <p class="otp__prompt">
-            <a class="otp__link" href="#">Request again in 30 seconds</a> or
-            <a class="otp__link" href="#">contact support.</a>
+            <a class="otp__link" href="javascript: void(0)" @click.prevent="requestAgain"
+                >Request again in 30 seconds</a
+            >
+            or
+            <a class="otp__link" :href="supportUrl">contact support.</a>
         </p>
     </div>
 </template>
@@ -35,6 +38,8 @@ export default {
         otpErrorText: { type: String, default: "" },
         disabled: { type: Boolean, default: false },
         placeholder: { type: String, required: true },
+        requestAgain: { type: Function },
+        supportUrl: { type: String, default: "javascript: void(0)" },
     },
     data() {
         return {

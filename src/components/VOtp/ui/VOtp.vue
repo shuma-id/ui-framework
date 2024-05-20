@@ -4,11 +4,11 @@
             <div class="__item" v-for="item in mask">{{ item }}</div>
         </div>
         <VInput
-            id="OTP"
+            :id="id"
             type="text"
             :model-value="otpCode"
             :disabled="disabled"
-            :placeholder="text"
+            :placeholder="placeholder"
             @update:modelValue="otpCode = $event"
             :max-length="maxLength"
             :error="otpError"
@@ -34,10 +34,10 @@ export default {
         otpError: { type: Boolean, default: false },
         otpErrorText: { type: String, default: "" },
         disabled: { type: Boolean, default: false },
+        placeholder: { type: String, required: true },
     },
     data() {
         return {
-            text: "Enter short code from Email",
             mask: new Array(6).fill("—"),
             otpCode: "",
             maxLength: 6,

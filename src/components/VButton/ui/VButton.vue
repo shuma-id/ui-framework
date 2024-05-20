@@ -44,21 +44,21 @@ export default {
     cursor: pointer;
 
     &--primary {
-        background: var(--color-main);
-        color: #fff;
+        background: var(--color-button-main, #000);
+        color: var(--color-button-text, #fff);
 
         &:hover {
-            background: var(--color-main-hover);
+            background: var(--color-main-hover, #333);
         }
 
         &:active {
-            background: var(--color-main-hover);
+            background: var(--color-main-hover, #333);
         }
 
         &:disabled,
         &.disabled {
-            background: #f7f7f7;
-            color: #c4c4c4;
+            background: var(--color-button-disabled, #f7f7f7);
+            color: var(--color-button-text-disabled, #c4c4c4);
         }
     }
 

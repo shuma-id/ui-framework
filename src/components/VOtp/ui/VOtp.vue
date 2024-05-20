@@ -17,7 +17,7 @@
             @blur="isBlurred()"
             ref="input"
         ></VInput>
-        <p class="otp__prompt">
+        <p class="otp__prompt" v-if="showInfoBlock">
             <a class="otp__link" href="javascript: void(0)" @click.prevent="requestAgain"
                 >Request again in 30 seconds</a
             >
@@ -40,6 +40,7 @@ export default {
         placeholder: { type: String, required: true },
         requestAgain: { type: Function },
         supportUrl: { type: String, default: "javascript: void(0)" },
+        showInfoBlock: { type: Boolean, default: true },
     },
     data() {
         return {

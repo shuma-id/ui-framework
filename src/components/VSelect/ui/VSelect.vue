@@ -133,21 +133,6 @@ export default {
     width: 100%;
     position: relative;
 
-    //Custom scrollbar
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-        background-color: #e5e5e5;
-        background-clip: padding-box;
-        border-radius: 12px;
-        border: 1px solid #e5e5e5;
-        -webkit-border-radius: 12px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #f7f7f7;
-    }
-
     .input__wrapper {
         position: relative;
         display: flex;

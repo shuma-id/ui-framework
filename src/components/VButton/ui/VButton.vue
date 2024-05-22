@@ -48,11 +48,11 @@ export default {
         color: var(--color-button-text, #fff);
 
         &:hover {
-            background: var(--color-main-hover, #333);
+            background: var(--color-button-hover, #333);
         }
 
         &:active {
-            background: var(--color-main-hover, #333);
+            background: var(--color-button-hover, #333);
         }
 
         &:disabled,

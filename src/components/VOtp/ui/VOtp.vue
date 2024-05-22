@@ -4,11 +4,11 @@
             <div class="__item" v-for="item in mask">{{ item }}</div>
         </div>
         <VInput
-            id="OTP"
+            :id="id"
             type="text"
             :model-value="otpCode"
             :disabled="disabled"
-            :placeholder="text"
+            :placeholder="placeholder"
             @update:modelValue="otpCode = $event"
             :max-length="maxLength"
             :error="otpError"
@@ -17,9 +17,12 @@
             @blur="isBlurred()"
             ref="input"
         ></VInput>
-        <p class="otp__prompt">
-            <a class="otp__link" href="#">Request again in 30 seconds</a> or
-            <a class="otp__link" href="#">contact support.</a>
+        <p class="otp__prompt" v-if="showInfoBlock">
+            <a class="otp__link" href="javascript: void(0)" @click.prevent="requestAgain"
+                >Request again in 30 seconds</a
+            >
+            or
+            <a class="otp__link" :href="supportUrl">contact support.</a>
         </p>
     </div>
 </template>
@@ -34,10 +37,13 @@ export default {
         otpError: { type: Boolean, default: false },
         otpErrorText: { type: String, default: "" },
         disabled: { type: Boolean, default: false },
+        placeholder: { type: String, required: true },
+        requestAgain: { type: Function },
+        supportUrl: { type: String, default: "javascript: void(0)" },
+        showInfoBlock: { type: Boolean, default: true },
     },
     data() {
         return {
-            text: "Enter short code from Email",
             mask: new Array(6).fill("—"),
             otpCode: "",
             maxLength: 6,

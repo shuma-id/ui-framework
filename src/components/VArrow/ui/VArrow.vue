@@ -1,5 +1,8 @@
 <template>
-    <span :class="`v-arrow __${this.type} __${this.direction}`">
+    <span
+        :class="`v-arrow __${this.type} __${this.direction}`"
+        :style="{ width: size + 'px', height: size + 'px' }"
+    >
         <svg
             width="24"
             height="24"
@@ -34,6 +37,7 @@ export default {
             type: String,
             default: "right",
         },
+        size: { type: Number },
     },
 };
 </script>

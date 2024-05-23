@@ -159,6 +159,10 @@ export default {
         box-shadow: 0 3px 15px rgba(76.5, 76.5, 76.5, 0.25);
         box-sizing: border-box;
         padding: 24px 12px;
+        z-index: 10;
+        max-height: 200px;
+        overflow-x: hidden;
+        overflow-y: scroll;
 
         .row {
             box-sizing: border-box;

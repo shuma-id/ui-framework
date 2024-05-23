@@ -121,7 +121,6 @@ export default {
         line-height: 1.5;
         font-weight: 400;
         color: var(--color-main);
-        transition: background-color 0.3s;
     }
 
     .__field-area {
@@ -157,6 +156,7 @@ export default {
         padding: 28px 0 12px 18px;
         font-size: 16px;
         line-height: 1.5;
+        border-radius: 12px;
     }
 
     .icon {
@@ -193,6 +193,9 @@ export default {
 .v-input.__complete,
 .v-input:has(.__field:autofill),
 .v-input:has(.__field:-webkit-autofill) {
+    &:hover {
+        background-color: #f2f2f2;
+    }
     .__field:not(.__focused) {
         padding: 28px 42px 12px 18px;
 

@@ -18,10 +18,11 @@ export default {
             type: Boolean,
             default: false,
         },
+        size: { type: String, default: "" },
     },
     computed: {
         typeClass() {
-            return `button--${this.type}`;
+            return this.size ? `button--${this.type} button--${this.size}` : `button--${this.type}`;
         },
     },
 };
@@ -32,12 +33,11 @@ export default {
     position: relative;
     width: 100%;
     display: inline-block;
-    min-height: 46px;
+    min-height: 64px;
     border: none;
     padding: 6px 24px;
     border-radius: 12px;
-    font-size: 14px;
-    line-height: 28px;
+    font-size: 16px;
     font-weight: 400;
     text-align: center;
     cursor: pointer;
@@ -119,6 +119,11 @@ export default {
             background: #f7f7f7;
             color: #a6a6a6;
         }
+    }
+
+    &--small {
+        min-height: 46px;
+        font-size: 14px;
     }
 }
 </style>

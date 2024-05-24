@@ -58,13 +58,11 @@ export default {
             selectedIndex: -1,
             filteredQuery: "",
             inputState: !this.filterable,
-            buffer: "",
         };
     },
     methods: {
         selectOption(option) {
             this.$emit("update:modelValue", option.value);
-            this.buffer = option.label;
             this.isFocused = false;
             this.selectedIndex = -1;
             this.filteredQuery = option.label;
@@ -103,7 +101,7 @@ export default {
             if (this.filteredOptions.length === 0) {
                 this.filteredQuery = "";
             }
-            this.filteredQuery = this.buffer;
+            this.filteredQuery = this.modelValueLabel;
         },
     },
     computed: {
@@ -118,13 +116,15 @@ export default {
         isInputReadonly() {
             return !this.filterable || this.inputState;
         },
+        modelValueLabel() {
+            if (!this.modelValue) return "";
+            const o = this.options.find((o) => o.value == this.modelValue);
+            return o.label;
+        },
     },
     watch: {
         modelValue() {
-            if (this.modelValue) {
-                const o = this.options.find((o) => o.value == this.modelValue);
-                this.filteredQuery = o.label;
-            }
+            this.filteredQuery = this.modelValueLabel;
         },
     },
 };

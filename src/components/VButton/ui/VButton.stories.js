@@ -4,6 +4,12 @@ export default {
     title: "VButton",
     component: VButton,
     tags: ["autodocs"],
+    argTypes: {
+        size: {
+            control: { type: "select" },
+            options: ["normal", "small"],
+        },
+    },
 };
 
 const Template = (args) => ({
@@ -11,7 +17,7 @@ const Template = (args) => ({
     setup() {
         return { args };
     },
-    template: "<v-button v-bind=\"args\" @update:state=\"args.state = $event\" />",
+    template: '<VButton v-bind="args" @update:state="args.state = $event">{{args.label}}</VButton>',
 });
 
 export const Primary = Template.bind({});

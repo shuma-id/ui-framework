@@ -36,9 +36,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import VInput from "../../VInput/ui/VInput.vue";
-import { useDropdown } from "../../../composables/useDropdown.js";
 
 export default {
     name: "VSelect",
@@ -78,6 +76,7 @@ export default {
             this.isFocused = false;
             this.inputState = true;
             this.clearInput();
+            this.selectedIndex = -1;
         },
         handleKeydown(e) {
             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -102,6 +101,7 @@ export default {
             if (this.filteredOptions.length === 0) {
                 this.filteredQuery = "";
             }
+            this.filteredQuery = this.modelValueLabel;
         },
     },
     computed: {
@@ -116,13 +116,15 @@ export default {
         isInputReadonly() {
             return !this.filterable || this.inputState;
         },
+        modelValueLabel() {
+            if (!this.modelValue) return "";
+            const o = this.options.find((o) => o.value == this.modelValue);
+            return o.label;
+        },
     },
     watch: {
         modelValue() {
-            if (this.modelValue) {
-                const o = this.options.find((o) => o.value == this.modelValue);
-                this.filteredQuery = o.label;
-            }
+            this.filteredQuery = this.modelValueLabel;
         },
     },
 };

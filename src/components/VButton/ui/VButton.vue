@@ -18,10 +18,11 @@ export default {
             type: Boolean,
             default: false,
         },
+        size: { type: String, default: "" },
     },
     computed: {
         typeClass() {
-            return `button--${this.type}`;
+            return this.size ? `button--${this.type} button--${this.size}` : `button--${this.type}`;
         },
     },
 };
@@ -33,12 +34,10 @@ export default {
     width: 100%;
     display: inline-block;
     min-height: 64px;
-
     border: none;
     padding: 6px 24px;
     border-radius: 12px;
-
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     text-align: center;
     cursor: pointer;
@@ -105,22 +104,26 @@ export default {
         color: #000;
 
         &:hover {
-            background: none;
-            color: #000;
-            text-decoration: underline;
+            background: #333333;
+            color: #fff;
         }
 
         &:active {
-            background: none;
+            background: #000;
             color: #545454;
             text-decoration: underline;
         }
 
         &:disabled,
         &.disabled {
-            background: none;
-            color: #cacaca;
+            background: #f7f7f7;
+            color: #a6a6a6;
         }
+    }
+
+    &--small {
+        min-height: 46px;
+        font-size: 14px;
     }
 }
 </style>

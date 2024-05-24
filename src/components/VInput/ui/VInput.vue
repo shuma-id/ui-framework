@@ -236,6 +236,18 @@ export default {
         }
     }
 
+    &.__complete,
+    .v-input:has(.__field:autofill),
+    .v-input:has(.__field:-webkit-autofill) {
+        &:hover {
+            background-color: var(--color-error-bg);
+        }
+    }
+
+    & .__field:not(.__focused) {
+        padding-top: 20px;
+    }
+
     .error-icon {
         opacity: 1;
     }
@@ -246,15 +258,20 @@ export default {
 
     .placeholder {
         color: var(--color-error);
+        top: -9px;
     }
 
     .error-text {
         font-size: 12px;
         line-height: 16px;
         position: absolute;
-        bottom: -22px;
+        bottom: 3px;
         left: 24px;
         color: var(--color-error);
+    }
+
+    .__prefix {
+        padding-top: 20px;
     }
 }
 

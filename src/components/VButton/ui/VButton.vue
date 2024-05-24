@@ -32,13 +32,12 @@ export default {
     position: relative;
     width: 100%;
     display: inline-block;
-    min-height: 64px;
-
+    min-height: 46px;
     border: none;
     padding: 6px 24px;
     border-radius: 12px;
-
-    font-size: 18px;
+    font-size: 14px;
+    line-height: 28px;
     font-weight: 400;
     text-align: center;
     cursor: pointer;
@@ -105,21 +104,20 @@ export default {
         color: #000;
 
         &:hover {
-            background: none;
-            color: #000;
-            text-decoration: underline;
+            background: #333333;
+            color: #fff;
         }
 
         &:active {
-            background: none;
+            background: #000;
             color: #545454;
             text-decoration: underline;
         }
 
         &:disabled,
         &.disabled {
-            background: none;
-            color: #cacaca;
+            background: #f7f7f7;
+            color: #a6a6a6;
         }
     }
 }

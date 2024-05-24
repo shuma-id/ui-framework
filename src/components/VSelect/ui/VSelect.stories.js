@@ -5,6 +5,13 @@ export default {
     title: "VSelect",
     component: VSelect,
     tags: ["autodocs"],
+    decorators: [
+        () => ({
+            template: `<div style="position: relative; border: 1px black dashed; min-height: 300px; padding: 20px;">
+                    <story />
+                </div>`,
+        }),
+    ],
     argTypes: {
         disabled: { control: "boolean" },
         error: { control: "boolean" },

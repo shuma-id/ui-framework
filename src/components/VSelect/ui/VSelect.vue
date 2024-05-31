@@ -44,7 +44,7 @@ export default {
         VInput,
     },
     props: {
-        modelValue: { type: String, default: "" },
+        modelValue: { type: [String, Object], default: "" },
         placeholder: { type: String, default: "" },
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },

@@ -86,7 +86,7 @@ export default {
             this.focus();
         },
         getHeight() {
-            this.height = this.$refs.ta.scrollHeight;
+            this.height = this.$refs.ta?.scrollHeight;
         },
     },
     mounted() {

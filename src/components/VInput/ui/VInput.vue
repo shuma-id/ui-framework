@@ -85,12 +85,13 @@ export default {
         mousedown() {
             this.focus();
         },
-        getHeight() {
+        setHeight() {
             this.height = this.$refs.ta?.scrollHeight;
         },
     },
     mounted() {
         this.isFocused = this.initialFocusState;
+        this.setHeight();
     },
     computed: {
         isComplete() {
@@ -102,7 +103,7 @@ export default {
     },
     watch: {
         modelValue() {
-            this.getHeight();
+            this.setHeight();
         },
     },
 };

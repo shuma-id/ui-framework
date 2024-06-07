@@ -37,6 +37,8 @@
             @mousedown="mousedown"
             class="__field __field-area"
             v-if="textarea"
+            ref="ta"
+            :style="{ height: height + 'px' }"
         />
         <img class="icon done-icon" src="./icon-done.svg" alt="Done icon image" />
         <img class="icon error-icon" src="./icon-errors.svg" alt="Error icon image" />
@@ -64,6 +66,7 @@ export default {
     data() {
         return {
             isFocused: false,
+            height: 108,
         };
     },
     methods: {
@@ -82,6 +85,9 @@ export default {
         mousedown() {
             this.focus();
         },
+        getHeight() {
+            this.height = this.$refs.ta.scrollHeight;
+        },
     },
     mounted() {
         this.isFocused = this.initialFocusState;
@@ -92,6 +98,11 @@ export default {
         },
         initialFocusState() {
             return this.prefix;
+        },
+    },
+    watch: {
+        modelValue() {
+            this.getHeight();
         },
     },
 };
@@ -124,7 +135,7 @@ export default {
     }
 
     .__field-area {
-        min-height: 84px;
+        height: auto;
         padding: 12px 18px 18px;
         background: var(--color-textarea-bg);
 

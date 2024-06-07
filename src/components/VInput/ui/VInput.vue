@@ -88,7 +88,7 @@ export default {
     },
     computed: {
         isComplete() {
-            return this.modelValue.length > 0;
+            return this.modelValue?.length > 0;
         },
         initialFocusState() {
             return this.prefix;
@@ -124,7 +124,7 @@ export default {
     }
 
     .__field-area {
-        height: 84px;
+        min-height: 84px;
         padding: 12px 18px 18px;
         background: var(--color-textarea-bg);
 

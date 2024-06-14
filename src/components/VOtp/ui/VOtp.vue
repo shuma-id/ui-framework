@@ -6,10 +6,9 @@
         <VInput
             :id="id"
             type="text"
-            :model-value="otpCode"
             :disabled="disabled"
             :placeholder="placeholder"
-            @update:modelValue="otpCode = $event"
+            v-model="otpCode"
             :max-length="maxLength"
             :error="otpError"
             :error-text="otpErrorText"
@@ -40,7 +39,7 @@ export default {
         placeholder: { type: String, required: true },
         requestAgain: { type: Function },
         supportUrl: { type: String, default: "javascript: void(0)" },
-        showInfoBlock: { type: Boolean, default: true },
+        showInfoBlock: { type: Boolean, default: false },
     },
     data() {
         return {
@@ -58,7 +57,7 @@ export default {
             for (let i = 0; i < arr.length; i++) {
                 this.mask[i] = "";
             }
-            this.$emit("update:otpCode", this.otpCode);
+            this.$emit("update:modelValue", this.otpCode);
         },
     },
     methods: {

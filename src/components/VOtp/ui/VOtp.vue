@@ -57,7 +57,7 @@ export default {
             for (let i = 0; i < arr.length; i++) {
                 this.mask[i] = "";
             }
-            this.$emit("update:otpCode", this.otpCode);
+            this.$emit("update:modelValue", this.otpCode);
         },
     },
     methods: {

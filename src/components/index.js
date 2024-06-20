@@ -7,5 +7,17 @@ import VOtp from "./VOtp/ui/VOtp.vue";
 import VPlaceholder from "./VPlaceholder/ui/VPlaceholder.vue";
 import VSelect from "./VSelect/ui/VSelect.vue";
 import VTable from "./VTable/ui/VTable.vue";
+import VCheckbox from "./VCheckbox/ui/VCheckbox.vue";
 
-export { VArrow, VBreadcrumbs, VButton, VDropdown, VInput, VOtp, VPlaceholder, VSelect, VTable };
+export {
+    VArrow,
+    VBreadcrumbs,
+    VButton,
+    VDropdown,
+    VInput,
+    VOtp,
+    VPlaceholder,
+    VSelect,
+    VTable,
+    VCheckbox,
+};

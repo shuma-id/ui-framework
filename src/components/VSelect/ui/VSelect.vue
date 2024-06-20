@@ -1,5 +1,12 @@
 <template>
-    <div class="v-select" :class="{ __focused: isFocused, '__with-error': error }">
+    <div
+        class="v-select"
+        :class="{
+            __focused: isFocused,
+            '__with-error': error,
+            '__no-placeholder': !placeholder,
+        }"
+    >
         <div class="input__wrapper">
             <VInput
                 v-model="filteredQuery"
@@ -179,7 +186,7 @@ export default {
         }
     }
 
-    &:deep .icon {
+    &:deep(.icon) {
         display: none;
     }
 }
@@ -190,5 +197,13 @@ export default {
 
 .__with-error.v-select .arrow-icon {
     opacity: 0;
+}
+
+.__no-placeholder.v-select:deep(
+        .v-input.__complete .__field:not(.__focused),
+        .v-input:has(.__field:autofill).__field:not(.__focused),
+        .v-input:has(.__field:-webkit-autofill).__field:not(.__focused)
+    ) {
+    padding-top: 10px;
 }
 </style>

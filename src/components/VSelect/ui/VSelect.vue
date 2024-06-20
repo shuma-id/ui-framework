@@ -204,6 +204,6 @@ export default {
         .v-input:has(.__field:autofill).__field:not(.__focused),
         .v-input:has(.__field:-webkit-autofill).__field:not(.__focused)
     ) {
-    padding-top: 10px;
+    padding-top: 13px;
 }
 </style>

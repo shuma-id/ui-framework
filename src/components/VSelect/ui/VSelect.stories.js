@@ -47,6 +47,11 @@ Default.args = {
     options: currencyOptions,
 };
 
+export const Currency = Template.bind({});
+Currency.args = {
+    options: currencyOptions.slice(1),
+};
+
 const TemplateDeff = (args, { updateArgs }) => ({
     components: { VSelect },
     setup() {

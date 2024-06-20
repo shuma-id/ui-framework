@@ -33,16 +33,6 @@ export default {
         modelValue: { type: Boolean },
         lightTheme: { type: Boolean, default: false },
     },
-    data() {
-        return {
-            checked: false,
-        };
-    },
-    methods: {
-        updateValue($event) {
-            this.$emit("update:modelValue", $event.target.checked);
-        },
-    },
 };
 </script>
 

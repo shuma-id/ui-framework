@@ -58,6 +58,10 @@ export default {
 
 .__checked {
     background: #000;
+
+    &:hover {
+        background: #333;
+    }
 }
 
 .__light {
@@ -71,6 +75,10 @@ export default {
 
     &:active {
         background: #f5f5f5;
+    }
+
+    &.__checked:hover {
+        background: #e5e5e5;
     }
 }
 

@@ -48,7 +48,6 @@ export default {
     methods: {
         updateValue($event) {
             this.$emit("update:modelValue", $event.target.checked);
-            this.$emit("change", this.modelValue);
         },
     },
 };

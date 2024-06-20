@@ -8,7 +8,7 @@ export default {
     argTypes: {
         disabled: { control: "boolean" },
         modelValue: { control: "boolean" },
-        selectedLightTheme: { control: "boolean" },
+        lightTheme: { control: "boolean" },
     },
 };
 
@@ -32,5 +32,5 @@ Checkbox.args = {};
 export const CheckboxLightSelected = Template.bind({});
 
 CheckboxLightSelected.args = {
-    selectedLightTheme: true,
+    lightTheme: true,
 };

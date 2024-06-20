@@ -2,7 +2,7 @@
     <label
         class="checkbox"
         :class="{
-            __light: selectedLightTheme,
+            __light: lightTheme,
         }"
     >
         <input
@@ -38,7 +38,7 @@ export default {
         id: { type: String, required: true },
         disabled: { type: Boolean, default: false },
         modelValue: { type: Boolean },
-        selectedLightTheme: { type: Boolean, default: false },
+        lightTheme: { type: Boolean, default: false },
     },
     data() {
         return {

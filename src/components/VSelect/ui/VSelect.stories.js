@@ -47,8 +47,8 @@ Default.args = {
     options: currencyOptions,
 };
 
-export const Currency = Template.bind({});
-Currency.args = {
+export const SelectWithoutPlaceholder = Template.bind({});
+SelectWithoutPlaceholder.args = {
     options: currencyOptions.slice(1),
 };
 

@@ -225,9 +225,13 @@ export default {
         padding: 36px 42px 18px 18px;
     }
 
+    /*
+    these styles can be applied later if you need to highlight fields with unique data
+
     .done-icon {
         opacity: 1;
     }
+     */
 
     .placeholder {
         transform: translate3D(0, 14px, 0);

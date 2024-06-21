@@ -134,6 +134,9 @@ export default {
             this.filteredQuery = this.modelValueLabel;
         },
     },
+    mounted() {
+        this.filteredQuery = this.modelValueLabel;
+    },
 };
 </script>
 

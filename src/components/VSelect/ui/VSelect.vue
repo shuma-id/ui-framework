@@ -158,6 +158,10 @@ export default {
             transition: 0.3s;
             pointer-events: none;
         }
+
+        &:deep(.v-input .__field) {
+            cursor: default;
+        }
     }
 
     .options__container {

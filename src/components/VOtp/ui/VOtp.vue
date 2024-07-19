@@ -121,7 +121,7 @@ export default {
         }
     }
 
-    &:deep .__field {
+    &:deep(.__field) {
         font-family: "SF Mono", monospace;
         letter-spacing: 8px;
     }

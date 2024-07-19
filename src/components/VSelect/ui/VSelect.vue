@@ -20,7 +20,7 @@
                 :readonly="isInputReadonly"
                 :id="id"
             />
-            <img class="arrow-icon" src="./arrow-icon.svg" alt="Arrow icon" />
+            <VArrow class="arrow-icon" direction="bottom" :size="20" />
         </div>
         <div class="options__container" v-if="isFocused" @mousedown.prevent tabindex="0">
             <div
@@ -44,10 +44,12 @@
 
 <script>
 import VInput from "../../VInput/ui/VInput.vue";
+import VArrow from "../../VArrow/ui/VArrow.vue";
 
 export default {
     name: "VSelect",
     components: {
+        VArrow,
         VInput,
     },
     props: {
@@ -152,11 +154,21 @@ export default {
 
         .arrow-icon {
             position: absolute;
-            top: 26px;
+            top: 23px;
             left: calc(100% - 36px);
 
             transition: 0.3s;
             pointer-events: none;
+
+            &:deep(svg) {
+                path {
+                    fill: #a6a6a6;
+                }
+            }
+        }
+
+        &:deep(.v-input .__field) {
+            cursor: default;
         }
     }
 
@@ -194,8 +206,20 @@ export default {
     }
 }
 
+.v-select:hover .arrow-icon:deep(svg) {
+    path {
+        fill: #000;
+    }
+}
+
 .__focused.v-select .arrow-icon {
-    transform: rotate(-180deg);
+    transform: rotate(-90deg);
+
+    &:deep(svg) {
+        path {
+            fill: #000;
+        }
+    }
 }
 
 .__with-error.v-select .arrow-icon {

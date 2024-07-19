@@ -154,7 +154,7 @@ export default {
 
         .arrow-icon {
             position: absolute;
-            top: 26px;
+            top: 23px;
             left: calc(100% - 36px);
 
             transition: 0.3s;

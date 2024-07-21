@@ -51,7 +51,7 @@
                 </tr>
             </template>
             <template v-else>
-                <tr class="row" v-for="i in 3" :key="i">
+                <tr class="row" v-for="i in 9" :key="i">
                     <td :colspan="fieldsLength()">
                         <div v-if="i == 0" class="status"></div>
                         <VPlaceholder class="row-placeholder" />

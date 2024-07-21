@@ -14,24 +14,24 @@ export default {
     cursor: pointer;
     width: auto;
     min-height: 32px;
-    animation-duration: 0.5s;
+    animation-duration: 1s;
     animation-name: placeholder;
     animation-iteration-count: infinite;
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
     background: #fff;
-    border-radius: 4px;
-    box-shadow: 0px 0px 30px 0px rgba(165, 165, 165, 0.25);
+    border-radius: 6px;
+    box-shadow: none!important;
 }
 
 @keyframes placeholder {
     0% {
-        background: #fff;
+        background: #fafafa;
     }
     50% {
-        background: rgba(242, 242, 242, 0.3);
+        background: #f5f5f5;
     }
     100% {
-        background: #fff;
+        background: #fafafa;
     }
 }
 </style>

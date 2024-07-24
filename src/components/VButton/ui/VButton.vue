@@ -1,16 +1,16 @@
 <template>
     <button :class="['button', typeClass]" :disabled="disabled">
         <slot v-if="!progress"></slot>
-        <LoadingSpinner v-if="progress" />
+        <VSpinner v-if="progress" />
     </button>
 </template>
 
 <script>
-import LoadingSpinner from "../../LoadingSpinner.vue";
+import VSpinner from "../../VSpinner/ui/VSpinner.vue";
 
 export default {
     name: "VButton",
-    components: { LoadingSpinner },
+    components: { VSpinner },
     props: {
         type: { type: String, default: "primary" },
         progress: { type: Boolean, default: false },

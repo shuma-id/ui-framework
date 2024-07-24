@@ -1,7 +1,7 @@
 <template>
     <svg
         style="left: 50%; top: 50%; margin-left: -10px; margin-top: -12px"
-        class="loading-spinner"
+        class="v-spinner"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -17,13 +17,13 @@
 
 <script>
 export default {
-    name: "LoadingSpinner",
+    name: "VSpinner",
     props: {},
 };
 </script>
 
 <style scoped>
-.loading-spinner {
+.v-spinner {
     position: absolute;
     height: 1.25rem;
     width: 1.25rem;

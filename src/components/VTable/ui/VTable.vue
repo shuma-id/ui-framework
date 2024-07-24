@@ -47,7 +47,7 @@
                     </tr>
                 </template>
                 <tr v-if="items.length === 0">
-                    <td class="empty-row" :colspan="fieldsLength()">No content</td>
+                    <td class="empty-row" :colspan="fieldsLength()">{{ emptyListMessage }}</td>
                 </tr>
             </template>
             <template v-else>
@@ -68,6 +68,7 @@ import { computed, defineProps } from "vue";
 import { VPlaceholder } from "../../VPlaceholder";
 
 const props = defineProps({
+    emptyListMessage:  {type: String, default: "No content"},
     vAlign: { type: String, default: "middle" },
     fields: { type: Array, default: () => [] },
     items: { type: Array, default: () => [] },
@@ -86,16 +87,15 @@ const fieldsLength = () => {
 </script>
 
 <style scoped>
-.table {
-}
 
-.table-cell {
+.table-cell,
+.empty-row {
     box-sizing: border-box;
     text-align: left;
     padding: 12px 12px;
     line-height: 24px;
     border-bottom: 1px #ebebeb solid;
-    border-right: 1px #ebebeb solid;
+    border-right: 0;
 }
 
 .table-cell.__header {
@@ -114,6 +114,10 @@ const fieldsLength = () => {
 
 .table-cell.__row:last-child {
     border-right: 0px;
+}
+
+.table tr:last-child td {
+    border-bottom: 0px;
 }
 
 tr {

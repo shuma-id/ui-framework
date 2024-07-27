@@ -71,6 +71,7 @@ export default {
     },
     methods: {
         selectOption(option) {
+            if (option.cb) option["cb"]();
             this.$emit("update:modelValue", option.value);
             this.isFocused = false;
             this.selectedIndex = -1;

@@ -1,5 +1,6 @@
 <template>
     <div
+        ref="vSelect"
         class="v-select"
         :class="{
             __focused: isFocused,
@@ -22,7 +23,15 @@
             />
             <VArrow class="arrow-icon" direction="bottom" :size="20" />
         </div>
-        <div class="options__container" v-if="isFocused" @mousedown.prevent tabindex="0">
+        <div
+            class="options__container"
+            :class="{ __top: optionsOnTop }"
+            :style="{ marginBottom: `${optionsMargin}px` }"
+            ref="options"
+            v-if="isFocused"
+            @mousedown.prevent
+            tabindex="0"
+        >
             <div
                 class="row"
                 v-if="filteredOptions.length > 0"
@@ -45,6 +54,7 @@
 <script>
 import VInput from "../../VInput/ui/VInput.vue";
 import VArrow from "../../VArrow/ui/VArrow.vue";
+import { nextTick } from "vue";
 
 export default {
     name: "VSelect",
@@ -58,12 +68,15 @@ export default {
         disabled: { type: Boolean, default: false },
         error: { type: Boolean, default: false },
         options: Array,
+        label: { type: String, required: false },
         filterable: { type: Boolean, default: false },
         id: { type: String, required: true },
     },
     data() {
         return {
             isFocused: false,
+            optionsOnTop: false,
+            optionsMargin: 0,
             selectedIndex: -1,
             filteredQuery: "",
             inputState: !this.filterable,
@@ -80,6 +93,17 @@ export default {
         },
         focusHandler() {
             this.isFocused = true;
+            nextTick(() => {
+                const vSelectRef = this.$refs.vSelect;
+                const optionsRef = this.$refs.options;
+
+                const offsetBottom = window.innerHeight - vSelectRef.getBoundingClientRect().bottom;
+                const optionsHeight = optionsRef.offsetHeight;
+                const padding = 12;
+
+                this.optionsOnTop = offsetBottom < optionsHeight + padding;
+                this.optionsMargin = this.optionsOnTop ? vSelectRef.offsetHeight + padding : 0;
+            });
             this.inputState = false;
         },
         blurHandler() {
@@ -188,6 +212,12 @@ export default {
         max-height: 200px;
         overflow-x: hidden;
         overflow-y: scroll;
+
+        &.__top {
+            top: auto;
+            bottom: 0px;
+            margin-bottom: 70px;
+        }
 
         .row {
             box-sizing: border-box;

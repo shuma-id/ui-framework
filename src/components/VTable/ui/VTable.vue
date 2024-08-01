@@ -63,9 +63,9 @@
             </template>
             <template v-if="!items || progress">
                 <tr class="row" v-for="i in 9" :key="i">
-                    <td :colspan="fieldsLength()">
+                    <td class="td-placeholder" :colspan="fieldsLength()">
                         <div v-if="i == 0" class="status"></div>
-                        <VPlaceholder class="row-placeholder" />
+                        <VPlaceholder class="placeholder" />
                     </td>
                 </tr>
             </template>
@@ -161,7 +161,7 @@ defineExpose({ clearSelection });
 
 .table-cell.__header:last-child {
     border-top-right-radius: 12px;
-    border-right: 0;
+    border-right: 0px!important;
 }
 
 .table-cell.__row:last-child {
@@ -184,8 +184,17 @@ tr:hover .table-cell {
     background: #fafafa;
 }
 
-.row-placeholder {
+.placeholder {
     height: 46px;
     border: 0px;
+}
+.td-placeholder {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+tr:first-child .td-placeholder .placeholder {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
 }
 </style>

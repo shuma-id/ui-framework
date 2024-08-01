@@ -135,7 +135,7 @@ export default {
             if (this.filteredOptions.length === 0) {
                 this.filteredQuery = "";
             }
-            this.filteredQuery = this.modelValueLabel;
+            this.filteredQuery = this.label || this.modelValueLabel;
         },
     },
     computed: {
@@ -158,11 +158,11 @@ export default {
     },
     watch: {
         modelValue() {
-            this.filteredQuery = this.modelValueLabel;
+            this.filteredQuery = this.label || this.modelValueLabel;
         },
     },
     mounted() {
-        this.filteredQuery = this.modelValueLabel;
+        this.filteredQuery = this.label || this.modelValueLabel;
     },
 };
 </script>

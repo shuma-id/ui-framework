@@ -1,5 +1,9 @@
 <template>
-    <table width="100%" class="table table-auto w-full">
+    <table
+        width="100%"
+        class="table table-auto w-full"
+        :class="{ 'user-select-none': mouseMoveSelectionMode }"
+    >
         <thead class="table-header">
             <tr>
                 <th
@@ -23,6 +27,8 @@
                     </tr>
                     <tr
                         v-else
+                        @mousemove="selectItem(item)"
+                        @mousedown="enableMouseMoveSelection"
                         :id="item.id"
                         class="row"
                         :class="{
@@ -43,6 +49,7 @@
                         >
                             <div v-if="index == 0" class="status"></div>
                             <VCheckbox
+                                @mousemove.stop
                                 v-if="key == 'selectCheckbox'"
                                 v-model="selectedItems[item.id]"
                             />
@@ -74,7 +81,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, ref, reactive, watch } from "vue";
+import { computed, defineProps, ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 
 import { VPlaceholder } from "../../VPlaceholder";
 import { VCheckbox } from "../../VCheckbox";
@@ -133,9 +140,38 @@ watch(selectedItems, async () => {
 });
 
 defineExpose({ clearSelection });
+
+// Mouse move selection mode
+const mouseMoveSelectionMode = ref(false);
+
+onMounted(() => {
+    window.addEventListener("mouseup", disableMouseMoveSelection);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener("mouseup", disableMouseMoveSelection);
+});
+
+function enableMouseMoveSelection() {
+    mouseMoveSelectionMode.value = true;
+}
+
+function disableMouseMoveSelection() {
+    mouseMoveSelectionMode.value = false;
+}
+
+function selectItem(item) {
+    if (!mouseMoveSelectionMode.value) return false;
+    selectedItems[item.id] = true;
+}
 </script>
 
 <style scoped>
+.user-select-none {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .table-cell,
 .empty-row {
     box-sizing: border-box;

@@ -123,9 +123,13 @@ const clearSelection = () => {
     Object.keys(selectedItems).map((k) => (selectedItems[k] = false));
 };
 
+const handleSelectAll = () => {
+    props.items.forEach((i) => (selectedItems[i.id] = true));
+};
+
 watch(selectAll, async () => {
     if (selectAll.value) {
-        props.items.forEach((i) => (selectedItems[i.id] = true));
+        handleSelectAll();
     } else {
         clearSelection();
     }
@@ -139,7 +143,7 @@ watch(selectedItems, async () => {
     emit("selectChanged", si);
 });
 
-defineExpose({ clearSelection });
+defineExpose({ clearSelection, handleSelectAll });
 
 // Mouse move selection mode
 const mouseMoveSelectionMode = ref(false);

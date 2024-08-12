@@ -150,10 +150,12 @@ const mouseMoveSelectionMode = ref(false);
 
 onMounted(() => {
     window.addEventListener("mouseup", disableMouseMoveSelection);
+    window.addEventListener("keydown", clearAllOnEsc);
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener("mouseup", disableMouseMoveSelection);
+    window.removeEventListener("keydown", clearAllOnEsc);
 });
 
 function enableMouseMoveSelection() {
@@ -167,6 +169,10 @@ function disableMouseMoveSelection() {
 function selectItem(item) {
     if (!mouseMoveSelectionMode.value) return false;
     selectedItems[item.id] = true;
+}
+
+function clearAllOnEsc(e) {
+    if (e.keyCode === 27) clearSelection();
 }
 </script>
 

@@ -123,9 +123,13 @@ const clearSelection = () => {
     Object.keys(selectedItems).map((k) => (selectedItems[k] = false));
 };
 
+const handleSelectAll = () => {
+    props.items.forEach((i) => (selectedItems[i.id] = true));
+};
+
 watch(selectAll, async () => {
     if (selectAll.value) {
-        props.items.forEach((i) => (selectedItems[i.id] = true));
+        handleSelectAll();
     } else {
         clearSelection();
     }
@@ -139,17 +143,19 @@ watch(selectedItems, async () => {
     emit("selectChanged", si);
 });
 
-defineExpose({ clearSelection });
+defineExpose({ clearSelection, handleSelectAll });
 
 // Mouse move selection mode
 const mouseMoveSelectionMode = ref(false);
 
 onMounted(() => {
     window.addEventListener("mouseup", disableMouseMoveSelection);
+    window.addEventListener("keydown", clearAllOnEsc);
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener("mouseup", disableMouseMoveSelection);
+    window.removeEventListener("keydown", clearAllOnEsc);
 });
 
 function enableMouseMoveSelection() {
@@ -163,6 +169,10 @@ function disableMouseMoveSelection() {
 function selectItem(item) {
     if (!mouseMoveSelectionMode.value) return false;
     selectedItems[item.id] = true;
+}
+
+function clearAllOnEsc(e) {
+    if (e.keyCode === 27) clearSelection();
 }
 </script>
 

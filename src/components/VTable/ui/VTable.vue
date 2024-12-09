@@ -35,6 +35,7 @@
                             'with-error': item.hasErrors === true,
                             highlighted: item.highlighted === true,
                         }"
+                        @mouseup="rowClick(item)"
                     >
                         <td
                             class="table-cell __row"
@@ -113,7 +114,7 @@ const tableFields = () => {
     else return props.fields;
 };
 
-const emit = defineEmits(["selectChanged"]);
+const emit = defineEmits(["selectChanged","onRowClick"]);
 
 const selectedItems = reactive({});
 const selectAll = ref(false);
@@ -163,6 +164,10 @@ function disableMouseMoveSelection() {
 function selectItem(item) {
     if (!mouseMoveSelectionMode.value) return false;
     selectedItems[item.id] = true;
+}
+
+function rowClick(item) {
+    emit('onRowClick', item)
 }
 </script>
 
